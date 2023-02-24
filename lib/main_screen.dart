@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pizza_planet/pages/home.dart';
+import 'package:pizza_planet/pages/login.dart';
 import 'package:pizza_planet/utils.dart';
 var scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -21,7 +22,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Home(),
+      // body: Home(),
+        body : Login(),
     );
   }
 }
