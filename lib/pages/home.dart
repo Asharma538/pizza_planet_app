@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pizza_planet/utils.dart';
 import 'package:advanced_search/advanced_search.dart';
+import 'package:pizza_planet/components/widgets.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -10,13 +12,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isSwitched = false;
+  late PageController _pageController;
+  List<String> images = [
+    "images/pizza_carousel.jpg",
+    "images/burger_carousel.jpeg",
+    "images/bread_carousel.jpeg"
+  ];
   @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(viewportFraction: 0.8);
+  }
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(14, 15, 14, 0),
+            margin: const EdgeInsets.fromLTRB(20, 18, 20, 0),
             child: AdvancedSearch(
               maxElementsToDisplay: 5, singleItemHeight: 48,
               selectedTextColor: const Color(0xFF3363D9), borderColor: primaryBorderDarkWhite, searchResultsBgColor: primaryWhite, enabledBorderColor: primaryBorderDarkWhite,
@@ -45,9 +60,114 @@ class _HomeState extends State<Home> {
               searchItems: const ['Corn Pizza', 'Aloo tikki Burger', 'Garlic Bread', 'Cheese Pizza','Margherita Pizza','Veggie Burger','Green Wave Pizza'],
             ),
           ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 30, 10, 10),
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              "What are you craving for?",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment:MainAxisAlignment.center,
+              children: <Widget>[
+                  categoryItem("images/pizza_image.png"),
+                  categoryItem("images/burger_image.png"),
+                  categoryItem("images/garlic_bread1.png")
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(25, 35, 5, 5),
+            width: 110,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: primaryBorderDarkWhite,
+                width: 0.8,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                    '   Veg ',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Switch(
+                  value: isSwitched,
+                  onChanged: (value) {
+                    setState(() {
+                      isSwitched = value;
+                    });
+                  },
+                  activeTrackColor: const Color(0xFF00CB3B),
+                  activeColor: const Color(0xFF00A906),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 30, 10, 10),
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              "Recommended",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+            height: 200,
+            width: MediaQuery.of(context).size.width,
+            child:   PageView.builder(
+                itemCount: images.length,
+                pageSnapping: true,
+                controller: _pageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    var activePage = page;
+                  });
+                },
+                itemBuilder: (context, pagePosition) {
+                  return Container(
+                    margin: const EdgeInsets.fromLTRB(5, 5, 15, 10),
+                    padding: const EdgeInsets.fromLTRB(1, 3, 1, 5),
+                    decoration: const BoxDecoration(
+                        boxShadow:[
+                          BoxShadow(
+                            color: Color(0xFFB9B9B9),
+                            blurRadius: 6,
+                            offset: Offset(
+                              0,
+                              6,
+                            )
+                          ),
+                        ]
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image(
+                          image: AssetImage(images[pagePosition]),fit: BoxFit.fill,
+                      ),
+                    ),
+                  );
+                }),
+          )
         ],
       ),
     );
   }
 }
-

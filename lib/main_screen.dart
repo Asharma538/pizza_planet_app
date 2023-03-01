@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pizza_planet/pages/home.dart';
-import 'package:pizza_planet/pages/login.dart';
 import 'package:pizza_planet/pages/cart.dart';
 import 'package:pizza_planet/pages/orders.dart';
 import 'package:pizza_planet/utils.dart';
@@ -24,6 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           backgroundColor: primaryBlue,
           centerTitle: true,
