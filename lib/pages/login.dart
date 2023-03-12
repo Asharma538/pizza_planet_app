@@ -75,9 +75,9 @@ class _LoginState extends State<Login> {
             const Padding(padding: EdgeInsets.only(bottom: 10)),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MainScreen()),
+                  MaterialPageRoute(builder: (context) => const MainScreen()),
                 );
               },
               style: ButtonStyle(
