@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "140792705515",
+    "project_id": "pizza-planet-app-03082904",
+    "storage_bucket": "pizza-planet-app-03082904.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140792705515:android:c8a956d7c20b767a6ee9ae",
+        "android_client_info": {
+          "package_name": "com.example.pizza_planet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140792705515-keg38bbt0jplcjjrqvicsnthbqv8spcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNiP-_V8SpEviAuJruq8vEjZEucwP82lA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140792705515-keg38bbt0jplcjjrqvicsnthbqv8spcq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
