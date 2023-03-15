@@ -51,6 +51,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   advanced_search: ^2.2.3
+  carousel_slider: ^4.2.1
+  firebase_auth: ^4.2.9
+  cloud_firestore: ^4.4.3
   counter_button: ^1.0.1
 
 # For information on the generic Dart part of this file, see the
