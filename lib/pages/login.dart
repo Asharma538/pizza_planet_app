@@ -6,12 +6,12 @@ import 'package:pizza_planet/pages/otp.dart';
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
   static String verify = "";
+  static String pn = "";
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  var pn = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
                   )),
               initialCountryCode: 'IN',
               onChanged: (phone) {
-                pn = (phone.completeNumber).toString();
+                Login.pn = (phone.completeNumber).toString();
               },
             ),
           ),
@@ -76,7 +76,7 @@ class _LoginState extends State<Login> {
           ElevatedButton(
             onPressed: () async{
               await FirebaseAuth.instance.verifyPhoneNumber(
-                phoneNumber: pn,
+                phoneNumber: Login.pn,
                 verificationCompleted: (PhoneAuthCredential credential) {},
                 verificationFailed: (FirebaseAuthException e) {},
                 codeSent: (String verificationId, int? resendToken) {
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        side: BorderSide(color: Colors.red)))),
+                        side: const BorderSide(color: Colors.red)))),
             child: const Text(
               'Continue',
               style: TextStyle(fontSize: 15),
