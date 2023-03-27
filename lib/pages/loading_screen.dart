@@ -17,7 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryRed,
-      body: Container(
+      body:
+       Container(
         color: primaryRed,
         width: MediaQuery.of(context).size.width,
         child: AnimatedSplashScreen(
