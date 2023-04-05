@@ -8,7 +8,7 @@ Widget categoryItem(String path) {
     padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
     decoration: BoxDecoration(
       color: primaryBlue,
-      border: Border.all(color: primaryBorderDarkWhite,width: 0.4),
+      border: Border.all(color: primaryBorderDarkWhite, width: 0.4),
       borderRadius: BorderRadius.circular(10),
       boxShadow: const [
         BoxShadow(
@@ -29,6 +29,15 @@ Widget categoryItem(String path) {
   );
 }
 
-// Widget something(context,quantity,item,price){
-//   // return ;
-// }
+PreferredSizeWidget AppBarMenu(String s) {
+  return AppBar(
+      backgroundColor: primaryBlue,
+      centerTitle: true,
+      title: Text(s),
+      actions: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(0, 0, 18, 0),
+          // child: const Icon(Icons.person),
+        ),
+      ]);
+}
