@@ -97,7 +97,8 @@ class _OrdersState extends State<Orders> {
                                       offset: Offset(
                                         0,
                                         6,
-                                      ))
+                                      )
+                                      )
                                 ]),
                             margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                             child: Column(children: [
