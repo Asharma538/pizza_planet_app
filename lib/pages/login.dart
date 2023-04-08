@@ -116,11 +116,11 @@ class _LoginState extends State<Login> {
               const Text('Or'),
               Expanded(
                   child: Container(
-                margin: const EdgeInsets.only(left: 15.0, right: 25.0),
-                child: const Divider(
-                  color: Color.fromARGB(255, 146, 146, 146),
-                  height: 50,
-                ),
+                    margin: const EdgeInsets.only(left: 15.0, right: 25.0),
+                    child: const Divider(
+                      color: Color.fromARGB(255, 146, 146, 146),
+                      height: 50,
+                    ),
               )),
             ],
           ),
@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
               width: 290,
               height: 50,
             ),
-          )
+          ),
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pizza_planet/utils.dart';
 import 'package:advanced_search/advanced_search.dart';
 import 'package:pizza_planet/components/widgets.dart';
+import 'package:pizza_planet/pages/cart.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,10 +14,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool isSwitched = false;
   late PageController _pageController;
-  List<String> images = [
+  List<String> categoryImages = [
+    "images/pizza_image.png",
+    "images/burger_image.png",
+    "images/garlic_bread1.png"
+  ];
+  List<String> carouselImages = [
     "images/pizza_carousel.jpg",
     "images/burger_carousel.jpeg",
     "images/bread_carousel.jpeg"
+  ];
+  List<String> menu = [
+    "Pizza",
+    "Burger",
+    "Garlic Bread",
   ];
   @override
   void initState() {
@@ -31,6 +42,7 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               margin: const EdgeInsets.fromLTRB(20, 18, 20, 0),
@@ -82,9 +94,26 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment:MainAxisAlignment.center,
                 children: <Widget>[
-                    categoryItem("images/pizza_image.png"),
-                    categoryItem("images/burger_image.png"),
-                    categoryItem("images/garlic_bread1.png")
+                  for (var catItem=0;catItem<categoryImages.length;catItem+=1)
+                  GestureDetector(
+                      onTap: () {
+                        var found=false;
+                        for (var temp=0; temp<Cart.quantity.length;temp+=1){
+                          if (Cart.cartItems[temp]==menu[catItem]){
+                            Cart.quantity[temp]+=1;
+                            found=true;
+                            break;
+                          }
+                        }
+                        if (found==false){
+                          Cart.cartItems.add(menu[catItem]);
+                          Cart.price.add(6);
+                          Cart.quantity.add(1);
+                        }
+                        setState(() {});
+                      },
+                      child: categoryItem(categoryImages[catItem]),
+                  )
                 ],
               ),
             ),
@@ -138,7 +167,7 @@ class _HomeState extends State<Home> {
               height: 200,
               width: MediaQuery.of(context).size.width,
               child:   PageView.builder(
-                  itemCount: images.length,
+                  itemCount: carouselImages.length,
                   pageSnapping: true,
                   controller: _pageController,
                   onPageChanged: (page) {
@@ -165,12 +194,13 @@ class _HomeState extends State<Home> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image(
-                            image: AssetImage(images[pagePosition]),fit: BoxFit.fill,
+                            image: AssetImage(carouselImages[pagePosition]),fit: BoxFit.fill,
                         ),
                       ),
                     );
                   }),
             ),
+
           ],
         ),
       ),

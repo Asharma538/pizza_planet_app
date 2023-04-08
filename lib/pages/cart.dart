@@ -17,22 +17,22 @@ funky(l1,l2){
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
-
+  static List<int> quantity=[2,3];
+  static List<int> price=[3,4];
+  static List<String>  cartItems = ["Margherita Pizza","Aloo tikki Burger"];
   @override
   State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
-  var quantity=[2,3];
-  var price=[3,4];
-  var items = ["Margherita Pizza","Aloo tikki Burger"];
   @override
   Widget build(BuildContext context) {
-    if (funky(quantity,price)!=0) {
+    if (funky(Cart.quantity,Cart.price)!=0) {
       return Scaffold(
         backgroundColor: ghostWhite,
         resizeToAvoidBottomInset: false,
-        body: Column(
+        body: SingleChildScrollView(child:
+        Column(
           children: <Widget>[
             Container(
               padding: const EdgeInsets.fromLTRB(0, 35, 0, 10),
@@ -46,8 +46,8 @@ class _CartState extends State<Cart> {
                 ),
               ),
             ),
-            for (int i = 0; i < quantity.length; i++)
-              if (quantity[i] > 0)
+            for (int i = 0; i < Cart.quantity.length; i++)
+              if (Cart.quantity[i] > 0)
                 Container(
                   width: MediaQuery
                       .of(context)
@@ -71,7 +71,7 @@ class _CartState extends State<Cart> {
                           SizedBox(
                             width: 150,
                             child: Text(
-                              items[i],
+                              Cart.cartItems[i],
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
@@ -80,17 +80,23 @@ class _CartState extends State<Cart> {
                           ),
                           const SizedBox(height: 4,),
                           Text(
-                            "\$ ${price[i]}",
+                            "\$ ${Cart.price[i]}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.w700
                             ),
                           ),
                           const SizedBox(height: 13,),
-                          const Text(
-                            "Remove",
-                            style: TextStyle(
-                                color: primaryRed,
-                                fontWeight: FontWeight.w700
+                          GestureDetector(
+                            onTap: (){
+                              Cart.quantity[i]=0;
+                              setState(() {});
+                            },
+                            child: const Text(
+                              "Remove",
+                              style: TextStyle(
+                                  color: primaryRed,
+                                  fontWeight: FontWeight.w700
+                              ),
                             ),
                           )
                         ],
@@ -117,8 +123,8 @@ class _CartState extends State<Cart> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    quantity[i] -= 1;
-                                    late var tot = funky(price, quantity);
+                                    Cart.quantity[i] -= 1;
+                                    late var tot = funky(Cart.price, Cart.quantity);
                                     setState(() {});
                                   },
                                   child: const Icon(
@@ -128,7 +134,7 @@ class _CartState extends State<Cart> {
                                 ),
                                 const SizedBox(width: 16,),
                                 Text(
-                                    quantity[i].toString(),
+                                    Cart.quantity[i].toString(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16
@@ -137,8 +143,8 @@ class _CartState extends State<Cart> {
                                 const SizedBox(width: 16,),
                                 GestureDetector(
                                   onTap: () {
-                                    quantity[i] += 1;
-                                    late var tot = funky(price, quantity);
+                                    Cart.quantity[i] += 1;
+                                    late var tot = funky(Cart.price, Cart.quantity);
                                     setState(() {});
                                   },
                                   child: const Icon(
@@ -152,7 +158,7 @@ class _CartState extends State<Cart> {
                           Container(
                             margin: const EdgeInsets.fromLTRB(0, 22, 0, 0),
                             child: Text(
-                              'Total:  \$ ${quantity[i] * price[i]}  ',
+                              'Total:  \$ ${Cart.quantity[i] * Cart.price[i]}  ',
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -236,7 +242,7 @@ class _CartState extends State<Cart> {
                     borderRadius: BorderRadius.circular(5)
                 ),
                 alignment: Alignment.centerLeft,
-                margin: const EdgeInsets.fromLTRB(15, 30, 15, 0),
+                margin: const EdgeInsets.fromLTRB(15, 30, 15, 20),
                 padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +292,7 @@ class _CartState extends State<Cart> {
                           alignment: Alignment.centerRight,
                           width: 50,
                           child: Text(
-                            '\$ ${funky(price, quantity)}',
+                            '\$ ${funky(Cart.price, Cart.quantity)}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                             ),
@@ -299,6 +305,7 @@ class _CartState extends State<Cart> {
                 )
             ),
           ],
+         ),
         ),
       );
     }
@@ -377,7 +384,7 @@ class _CartState extends State<Cart> {
             ),
           ]
         )
-    );
+      );
     }
   }
 }

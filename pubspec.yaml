@@ -53,11 +53,14 @@ dev_dependencies:
   advanced_search: ^2.2.3
   carousel_slider: ^4.2.1
   firebase_auth: ^4.2.9
+  firebase_core: ^2.7.1
   cloud_firestore: ^4.4.3
+  firebase_database: ^10.1.0
   counter_button: ^1.0.1
   pinput: ^2.2.31
   animated_splash_screen: ^1.3.0
   lottie: ^2.3.0
+  provider: ^6.0.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
