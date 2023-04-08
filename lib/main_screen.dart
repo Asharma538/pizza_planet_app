@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final pages = [
+  final pages =  [
     Home(),
     Cart(),
     Orders(),
