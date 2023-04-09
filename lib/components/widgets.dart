@@ -29,7 +29,7 @@ Widget categoryItem(String path) {
   );
 }
 
-PreferredSizeWidget AppBarMenu(String s) {
+PreferredSizeWidget appBarMenu(String s) {
   return AppBar(
       backgroundColor: primaryBlue,
       centerTitle: true,

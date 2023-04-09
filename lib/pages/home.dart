@@ -3,13 +3,28 @@ import 'package:pizza_planet/pages/menu.dart';
 import 'package:pizza_planet/utils.dart';
 import 'package:advanced_search/advanced_search.dart';
 import 'package:pizza_planet/components/widgets.dart';
-import 'package:pizza_planet/pages/cart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
+
   static bool pizza = false;
   static bool burger = false;
   static bool garlicBread = false;
+
+  static List<dynamic> pizzasName = [];
+  static List<dynamic> pizzasCosts = [];
+
+  static List<dynamic> burgerName = [];
+  static List<dynamic> burgerCosts = [];
+  static List<dynamic> burgerType = [];
+  static List<dynamic> burgerImages = [];
+
+  static List<dynamic> breadName = [];
+  static List<dynamic> breadCosts = [];
+  static List<dynamic> breadType = [];
+  static List<dynamic> breadImages = [];
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -34,8 +49,76 @@ class _HomeState extends State<Home> {
     _pageController = PageController(viewportFraction: 0.8);
   }
 
+
   @override
   Widget build(BuildContext context) {
+    fetchPizzas() async {
+      var _instance1 = FirebaseFirestore.instance;
+      final docRef = _instance1.collection("Menu").doc("Pizzas");
+      await docRef.get().then(
+              (DocumentSnapshot snapshot) {
+            final data = snapshot.data() as Map<String,dynamic>;
+            Home.pizzasName = (data.keys).toList();
+            Home.pizzasCosts = (data.values).toList();
+          },
+          onError: (e){
+            print("not working-1");
+          }
+      );
+    }
+    fetchBurgers() async {
+      var _instance2 = FirebaseFirestore.instance;
+      final docRef = _instance2.collection("Menu").doc("Burger");
+      await docRef.get().then(
+              (DocumentSnapshot snapshot) {
+            final data = snapshot.data() as Map<String,dynamic>;
+            Home.burgerName = (data.keys).toList();
+            var temp = (data.values).toList();
+            var l1=[];
+            var l2=[];
+            var l3=[];
+            for (var ob in temp){
+              l1.add(ob[0]);
+              l2.add(ob[1]);
+              l3.add('images/burger_carousel.jpeg');
+            }
+            Home.burgerCosts = l1;
+            Home.burgerType = l2;
+            Home.burgerImages = l3;
+          },
+          onError: (e){
+            print("not working-burgers");
+          }
+      );
+    }
+    fetchBreads() async {
+      var _instance3 = FirebaseFirestore.instance;
+      final docRef = _instance3.collection("Menu").doc("Bread");
+      await docRef.get().then(
+              (DocumentSnapshot snapshot) {
+            final data = snapshot.data() as Map<String,dynamic>;
+            Home.breadName = (data.keys).toList();
+            var temp = (data.values).toList();
+            var l1=[];
+            var l2=[];
+            var l3=[];
+            for (var ob in temp){
+              l1.add(ob[0]);
+              l2.add(ob[1]);
+              l3.add('images/garlic_bread.png');
+            }
+            Home.breadCosts = l1;
+            Home.breadType = l2;
+            Home.breadImages = l3;
+          },
+          onError: (e){
+            print("not working-breads");
+          }
+      );
+    }
+    fetchPizzas();
+    fetchBurgers();
+    fetchBreads();
     return Scaffold(
       backgroundColor: ghostWhite,
       resizeToAvoidBottomInset: false,
@@ -104,7 +187,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   GestureDetector(
-                    onTap: () {
+                    onTap: (){
                       Home.pizza = true;
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Menu()));
