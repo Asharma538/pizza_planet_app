@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "140792705515",
+    "firebase_url": "https://pizza-planet-app-03082904-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "pizza-planet-app-03082904",
     "storage_bucket": "pizza-planet-app-03082904.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "140792705515-0m75c03154v3qf2qh5cp8kho7ftbdvot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pizza_planet",
+            "certificate_hash": "8f4f2cf09af2a36bff054b49b5b1bccbc5035671"
+          }
+        },
         {
           "client_id": "140792705515-keg38bbt0jplcjjrqvicsnthbqv8spcq.apps.googleusercontent.com",
           "client_type": 3

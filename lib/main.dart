@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pizza_planet/firebase_options.dart';
 import 'package:pizza_planet/main_screen.dart';
 import 'package:pizza_planet/pages/loading_screen.dart';
 import 'package:pizza_planet/pages/login.dart';
@@ -7,12 +8,7 @@ import 'package:pizza_planet/pages/login.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: 'AIzaSyCNiP-_V8SpEviAuJruq8vEjZEucwP82lA', // Your apiKey
-      appId: '140792705515:android:c8a956d7c20b767a6ee9ae', // Your appId
-      messagingSenderId: '140792705515', // Your messagingSenderId
-      projectId: 'pizza-planet-app-03082905', // Your projectId
-),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
