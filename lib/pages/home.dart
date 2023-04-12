@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
       var _instance1 = FirebaseFirestore.instance;
       final docRef = _instance1.collection("Menu").doc("Pizzas");
       await docRef.get().then((DocumentSnapshot snapshot) {
-        print(snapshot.data());
+        // print(snapshot.data());
         final data = snapshot.data() as Map<String, dynamic>;
         Home.pizzasName = (data.keys).toList();
         Home.pizzasCosts = (data.values).toList();

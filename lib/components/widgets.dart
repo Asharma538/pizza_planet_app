@@ -41,3 +41,17 @@ PreferredSizeWidget appBarMenu(String s) {
         ),
       ]);
 }
+
+Widget pizzaSizeText(txt, chosen) {
+  if (chosen == true) {
+    return Text(
+      txt,
+      style: TextStyle(color: Colors.orange[600], fontWeight: FontWeight.w600),
+    );
+  } else {
+    return Text(
+      txt,
+      style: const TextStyle(fontWeight: FontWeight.w600),
+    );
+  }
+}
