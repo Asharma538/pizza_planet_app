@@ -1,9 +1,10 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pizza_planet/cartProvider/provider.dart';
 import 'package:pizza_planet/main_screen.dart';
 import 'package:pizza_planet/utils.dart';
+import 'package:provider/provider.dart';
 
 funky(l1,l2){
  num tot=0;
@@ -13,11 +14,6 @@ funky(l1,l2){
   return tot;
 }
 double cart_box_height(int a,double b){
-  // if (a>=b) {
-  //   return a.toDouble();
-  // } else {
-  //   return 120.toDouble();
-  // }
   try{
     return 100.toDouble();
   } catch (e){
@@ -28,9 +24,9 @@ double cart_box_height(int a,double b){
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
-  static List<int> quantity=[2,3];
-  static List<int> price=[120,60];
-  static List<String>  cartItems = ["Pizza","Aloo tikki Burger"];
+  // static List<int> quantity=[2,3];
+  // static List<int> price=[120,60];
+  // static List<String>  cartItems = ["Pizza","Aloo tikki Burger"];
   @override
   State<Cart> createState() => _CartState();
 }
@@ -38,7 +34,12 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
-    if (funky(Cart.quantity,Cart.price)!=0) {
+
+    List<String> cartItems = Provider.of<CartProvider>(context).cartItems;
+    List<int> quantity = Provider.of<CartProvider>(context).quantity;
+    List<int> price = Provider.of<CartProvider>(context).price;
+
+    if (funky(quantity, price)!=0) {
       return Scaffold(
         backgroundColor: ghostWhite,
         resizeToAvoidBottomInset: false,
@@ -57,14 +58,14 @@ class _CartState extends State<Cart> {
                 ),
               ),
             ),
-            for (int i = 0; i < Cart.quantity.length; i++)
-              if (Cart.quantity[i] > 0)
+            for (int i = 0; i < quantity.length; i++)
+              if (quantity[i] > 0)
                 Container(
                   width: MediaQuery
                       .of(context)
                       .size
                       .width * 0.9,
-                    height: cart_box_height(100,Cart.cartItems[i].length.toDouble()),
+                    height: cart_box_height(100, cartItems[i].length.toDouble()),
                   padding: const EdgeInsets.fromLTRB(18, 14, 18, 14),
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
@@ -80,9 +81,9 @@ class _CartState extends State<Cart> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: max(220,(Cart.cartItems[i].length).toDouble()),
+                            width: max(220,(cartItems[i].length).toDouble()),
                             child: Text(
-                              Cart.cartItems[i],
+                              cartItems[i],
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
@@ -91,7 +92,7 @@ class _CartState extends State<Cart> {
                           ),
                           const SizedBox(height: 4,),
                           Text(
-                            "₹${Cart.price[i]}",
+                            "₹${price[i]}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.w700
                             ),
@@ -99,7 +100,7 @@ class _CartState extends State<Cart> {
                           const SizedBox(height: 13,),
                           GestureDetector(
                             onTap: (){
-                              Cart.quantity[i]=0;
+                              quantity[i]=0;
                               setState(() {});
                             },
                             child: const Text(
@@ -130,8 +131,8 @@ class _CartState extends State<Cart> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    Cart.quantity[i] -= 1;
-                                    late var tot = funky(Cart.price, Cart.quantity);
+                                    quantity[i] -= 1;
+                                    late var tot = funky(price, quantity);
                                     setState(() {});
                                   },
                                   child: const Icon(
@@ -141,7 +142,7 @@ class _CartState extends State<Cart> {
                                 ),
                                 const SizedBox(width: 16,),
                                 Text(
-                                    Cart.quantity[i].toString(),
+                                    quantity[i].toString(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16
@@ -150,8 +151,8 @@ class _CartState extends State<Cart> {
                                 const SizedBox(width: 16,),
                                 GestureDetector(
                                   onTap: () {
-                                    Cart.quantity[i] += 1;
-                                    late var tot = funky(Cart.price, Cart.quantity);
+                                    quantity[i] += 1;
+                                    late var tot = funky(price, quantity);
                                     setState(() {});
                                   },
                                   child: const Icon(
@@ -165,7 +166,7 @@ class _CartState extends State<Cart> {
                           Container(
                             margin: const EdgeInsets.fromLTRB(0, 22, 0, 0),
                             child: Text(
-                              'Total:  ₹${Cart.quantity[i] * Cart.price[i]}  ',
+                              'Total:  ₹${quantity[i] * price[i]}  ',
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -299,7 +300,7 @@ class _CartState extends State<Cart> {
                           alignment: Alignment.centerRight,
                           width: 50,
                           child: Text(
-                            '\$ ${funky(Cart.price, Cart.quantity)}',
+                            '₹${funky(price, quantity)}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                             ),

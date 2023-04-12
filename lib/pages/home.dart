@@ -6,7 +6,7 @@ import 'package:pizza_planet/components/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   static bool pizza = false;
   static bool burger = false;
@@ -25,12 +25,12 @@ class Home extends StatefulWidget {
   static List<dynamic> breadType = [];
   static List<dynamic> breadImages = [];
 
+  static bool onlyVeg = false;
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  bool isSwitched = false;
   late PageController _pageController;
 
   List<String> carouselImages = [
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
       var _instance1 = FirebaseFirestore.instance;
       final docRef = _instance1.collection("Menu").doc("Pizzas");
       await docRef.get().then((DocumentSnapshot snapshot) {
-        print(snapshot.data());
+        // print(snapshot.data());
         final data = snapshot.data() as Map<String, dynamic>;
         Home.pizzasName = (data.keys).toList();
         Home.pizzasCosts = (data.values).toList();
@@ -231,10 +231,10 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   Switch(
-                    value: isSwitched,
+                    value: Home.onlyVeg,
                     onChanged: (value) {
                       setState(() {
-                        isSwitched = value;
+                        Home.onlyVeg = value;
                       });
                     },
                     activeTrackColor: const Color(0xFF00CB3B),
