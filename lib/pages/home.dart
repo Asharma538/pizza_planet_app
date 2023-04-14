@@ -14,6 +14,8 @@ class Home extends StatefulWidget {
 
   static List<dynamic> pizzasName = [];
   static List<dynamic> pizzasCosts = [];
+  static List<dynamic> pizzasType = [];
+  static List<dynamic> pizzasImages = [];
 
   static List<dynamic> burgerName = [];
   static List<dynamic> burgerCosts = [];
@@ -52,13 +54,27 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     fetchPizzas() async {
-      var _instance1 = FirebaseFirestore.instance;
-      final docRef = _instance1.collection("Menu").doc("Pizzas");
+      var instance1 = FirebaseFirestore.instance;
+      final docRef = instance1.collection("Menu").doc("Pizzas");
       await docRef.get().then((DocumentSnapshot snapshot) {
         // print(snapshot.data());
         final data = snapshot.data() as Map<String, dynamic>;
         Home.pizzasName = (data.keys).toList();
+        var l1 =  [];
+        var l2 =  [];
+        var l3 =  [];
         Home.pizzasCosts = (data.values).toList();
+        for (var ob in Home.pizzasCosts){
+          l1.add([ob[0],ob[1],ob[2]]);
+          l2.add(ob[3]);
+          l3.add("images/pizza_carousel.jpg");
+        }
+        Home.pizzasCosts = l1;
+        Home.pizzasType = l2;
+        Home.pizzasImages = l3;
+        print(Home.pizzasCosts);
+        print(Home.pizzasName);
+        print(Home.pizzasType);
       }, onError: (e) {
         print(e);
         print("not working-pizzas");
@@ -66,8 +82,8 @@ class _HomeState extends State<Home> {
     }
 
     fetchBurgers() async {
-      var _instance2 = FirebaseFirestore.instance;
-      final docRef = _instance2.collection("Menu").doc("Burger");
+      var instance2 = FirebaseFirestore.instance;
+      final docRef = instance2.collection("Menu").doc("Burger");
       await docRef.get().then((DocumentSnapshot snapshot) {
         final data = snapshot.data() as Map<String, dynamic>;
         Home.burgerName = (data.keys).toList();
@@ -90,8 +106,8 @@ class _HomeState extends State<Home> {
     }
 
     fetchBreads() async {
-      var _instance3 = FirebaseFirestore.instance;
-      final docRef = _instance3.collection("Menu").doc("Bread");
+      var instance3 = FirebaseFirestore.instance;
+      final docRef = instance3.collection("Menu").doc("Bread");
       await docRef.get().then((DocumentSnapshot snapshot) {
         final data = snapshot.data() as Map<String, dynamic>;
         Home.breadName = (data.keys).toList();

@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:pizza_planet/components/widgets.dart';
 import 'package:pizza_planet/utils.dart';
@@ -22,7 +21,6 @@ class _MenuState extends State<Menu> {
     "images/pizza_carousel.jpg"
   ];
   var Pizza_val = [120, 160, 200];
-  var Pizza_type = ["Vegetarian", "Non-Vegeterian", "Vegetarian"];
   @override
   Widget build(BuildContext context) {
     List<String> cartItems = Provider.of<CartProvider>(context).cartItems;
@@ -54,7 +52,7 @@ class _MenuState extends State<Menu> {
                     height: 50,
                     child: AppBar(
                       backgroundColor: primaryRed,
-                      bottom: TabBar(
+                      bottom: const TabBar(
                           indicatorColor: primaryRed,
                           labelColor: Colors.white,
                           unselectedLabelColor: primaryBlack,
@@ -76,12 +74,12 @@ class _MenuState extends State<Menu> {
                           ]),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   for (int j = 0; j < Pizza.length; j++) ...[
                     if (Home.onlyVeg == true) ...[
-                      if (Pizza_type[j] == 'Vegetarian') ...[
+                      if (Home.pizzasType[j] == 'Vegetarian') ...[
                         Container(
                           padding: const EdgeInsets.only(left: 10),
                           margin: const EdgeInsets.only(
@@ -127,9 +125,11 @@ class _MenuState extends State<Menu> {
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
-                                          letterSpacing: 0.5)),
+                                          letterSpacing: 0.5)
+                                  ),
+                                  const SizedBox(height: 5,),
                                   Text(
-                                    Pizza_type[j],
+                                    Home.pizzasType[j],
                                     style: const TextStyle(
                                         color: Color.fromARGB(255, 70, 158, 73),
                                         fontWeight: FontWeight.w500),
@@ -190,13 +190,15 @@ class _MenuState extends State<Menu> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              height: 110,
-                              width: 110,
+                              height: 90,
+                              width: 90,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20)),
                               padding:
-                                  const EdgeInsets.only(top: 10, bottom: 10),
+                                  const EdgeInsets.only(top: 5, bottom: 5),
                               child: Image(
+                                height: 90,
+                                width: 90,
                                 image: AssetImage(Pizza[j]),
                                 fit: BoxFit.cover,
                               ),
@@ -211,23 +213,25 @@ class _MenuState extends State<Menu> {
                                 Text(Home.pizzasName[j],
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         letterSpacing: 0.5)),
-                                if (Pizza_type[j] == 'Vegetarian') ...[
+                                const SizedBox(height: 5,),
+                                if (Home.pizzasType[j] == 'Vegetarian') ...[
                                   Text(
-                                    Pizza_type[j],
+                                    Home.pizzasType[j],
                                     style: const TextStyle(
                                         color: Color.fromARGB(255, 70, 158, 73),
                                         fontWeight: FontWeight.w500),
                                   ),
                                 ] else ...[
                                   Text(
-                                    Pizza_type[j],
+                                    Home.pizzasType[j],
                                     style: const TextStyle(
                                         color: Color.fromARGB(255, 204, 14, 14),
                                         fontWeight: FontWeight.w500),
                                   ),
                                 ],
+                                const SizedBox(height: 5,),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
