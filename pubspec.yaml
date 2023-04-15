@@ -40,7 +40,8 @@ dependencies:
   firebase_core: ^2.7.1
   firebase_auth: ^4.2.10
   provider: ^6.0.5
-
+  get: 
+  firebase_storage: ^11.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -55,6 +56,7 @@ dev_dependencies:
   carousel_slider: ^4.2.1
   firebase_auth: ^4.2.9
   firebase_core: ^2.7.1
+  
   cloud_firestore: ^4.4.3
   firebase_database: ^10.1.0
   counter_button: ^1.0.1

@@ -4,7 +4,7 @@ import 'package:pizza_planet/utils.dart';
 import 'package:advanced_search/advanced_search.dart';
 import 'package:pizza_planet/components/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -33,6 +33,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final storageRef = FirebaseStorage.instance.ref();
   late PageController _pageController;
 
   List<String> carouselImages = [
@@ -40,6 +41,13 @@ class _HomeState extends State<Home> {
     "images/burger_carousel.jpeg",
     "images/bread_carousel.jpeg"
   ];
+  List<String> carouselItems = [
+    "Margheritta Pizza",
+    "Aloo Tikki Burger",
+    "Cheese Dip Garlic bread"
+  ];
+  List<String> carouselCosts = ["₹180", "₹60", "₹125"];
+  List<String> carouselItemType = ["Veg", "Veg", "Veg"];
   List<String> menu = [
     "Pizza",
     "Burger",
@@ -60,21 +68,18 @@ class _HomeState extends State<Home> {
         // print(snapshot.data());
         final data = snapshot.data() as Map<String, dynamic>;
         Home.pizzasName = (data.keys).toList();
-        var l1 =  [];
-        var l2 =  [];
-        var l3 =  [];
+        var l1 = [];
+        var l2 = [];
+        var l3 = [];
         Home.pizzasCosts = (data.values).toList();
-        for (var ob in Home.pizzasCosts){
-          l1.add([ob[0],ob[1],ob[2]]);
+        for (var ob in Home.pizzasCosts) {
+          l1.add([ob[0], ob[1], ob[2]]);
           l2.add(ob[3]);
           l3.add("images/pizza_carousel.jpg");
         }
         Home.pizzasCosts = l1;
         Home.pizzasType = l2;
         Home.pizzasImages = l3;
-        print(Home.pizzasCosts);
-        print(Home.pizzasName);
-        print(Home.pizzasType);
       }, onError: (e) {
         print(e);
         print("not working-pizzas");
@@ -273,7 +278,7 @@ class _HomeState extends State<Home> {
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-              height: 200,
+              height: 235,
               width: MediaQuery.of(context).size.width,
               child: PageView.builder(
                   itemCount: carouselImages.length,
@@ -285,26 +290,89 @@ class _HomeState extends State<Home> {
                     });
                   },
                   itemBuilder: (context, pagePosition) {
-                    return Container(
-                      margin: const EdgeInsets.fromLTRB(5, 5, 15, 10),
-                      padding: const EdgeInsets.fromLTRB(1, 3, 1, 5),
-                      decoration: const BoxDecoration(boxShadow: [
-                        BoxShadow(
-                            color: Color(0xFFB9B9B9),
-                            blurRadius: 6,
-                            offset: Offset(
-                              0,
-                              6,
-                            )),
-                      ]),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image(
-                          image: AssetImage(carouselImages[pagePosition]),
-                          fit: BoxFit.fill,
+                    return Stack(alignment: Alignment.bottomLeft, children: [
+                      Container(
+                        height: 235,
+                        width: 300,
+                        decoration: const BoxDecoration(boxShadow: [
+                          BoxShadow(
+                              color: Color(0xFFB9B9B9),
+                              blurRadius: 6,
+                              offset: Offset(0, 6))
+                        ]),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image(
+                            image: AssetImage(carouselImages[pagePosition]),
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
-                    );
+                      Container(
+                          height: 70,
+                          decoration: const BoxDecoration(
+                              color: Color.fromARGB(179, 0, 0, 0),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10))),
+                          width: 300,
+                          padding: const EdgeInsets.only(left: 10, top: 1),
+                          child: Column(children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  carouselItems[pagePosition],
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      letterSpacing: 1),
+                                )),
+                                
+                                if (carouselItemType[pagePosition] ==
+                                    "Veg") ...[
+                                  Container(
+                                    alignment: Alignment.center,
+                                    margin: const EdgeInsets.only(
+                                        top: 15, left: 80, right: 10),
+                                    child: Image(
+                                      image: AssetImage('images/veg_icon.jpg'),
+                                      height: 15,
+                                      width: 15,
+                                      // color: Color.fromARGB(179, 0, 0, 0),
+                                    ),
+                                  ),
+                                ] else ...[
+                                  Container(
+                                    alignment: Alignment.center,
+                                    margin: const EdgeInsets.only(
+                                        top: 15, left: 80, right: 10),
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                     child: Image(
+                                      image: AssetImage('images/non_veg_icon.png'),
+                                      height: 16,
+                                      width: 16,
+                                      // color: Color.fromARGB(179, 0, 0, 0),
+                                    ),
+                                  ),
+                                ]
+                              ],
+                            ),
+                            Row(children: [
+                              Text(
+                                carouselCosts[pagePosition],
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    letterSpacing: 1),
+                              ),
+                            ])
+                          ]))
+                    ]);
                   }),
             ),
           ],

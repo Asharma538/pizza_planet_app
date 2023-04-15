@@ -15,12 +15,12 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   var category = ["Pizza", "Burger", "Garlic_Bread"];
 
-  var Pizza = [
-    "images/pizza_carousel.jpg",
-    "images/pizza_carousel.jpg",
-    "images/pizza_carousel.jpg"
-  ];
-  var Pizza_val = [120, 160, 200];
+  // var Pizza = [
+  //   "images/pizza_carousel.jpg",
+  //   "images/pizza_carousel.jpg",
+  //   "images/pizza_carousel.jpg"
+  // ];
+  // var Pizza_val = Home.pizzasCosts;
   @override
   Widget build(BuildContext context) {
     List<String> cartItems = Provider.of<CartProvider>(context).cartItems;
@@ -46,13 +46,23 @@ class _MenuState extends State<Menu> {
                         image: AssetImage('images/pizza-3000273_1920.jpg'),
                         fit: BoxFit.fitWidth,
                       )),
-                  // const Padding(
-                  //     padding: EdgeInsets.only(top: 20, left: 10, right: 10)),
                   SizedBox(
                     height: 50,
                     child: AppBar(
-                      backgroundColor: primaryRed,
-                      bottom: const TabBar(
+                      backgroundColor: Colors.white,
+                      bottom: TabBar(
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: primaryRed,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0xFFB9B9B9),
+                                    blurRadius: 3,
+                                    offset: Offset(
+                                      0,
+                                      3,
+                                    ))
+                              ]),
                           indicatorColor: primaryRed,
                           labelColor: Colors.white,
                           unselectedLabelColor: primaryBlack,
@@ -60,7 +70,8 @@ class _MenuState extends State<Menu> {
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.25),
-                          unselectedLabelStyle: TextStyle(fontSize: 15),
+                          unselectedLabelStyle: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
                           tabs: [
                             Tab(
                               text: "Regular",
@@ -74,202 +85,677 @@ class _MenuState extends State<Menu> {
                           ]),
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
-                  for (int j = 0; j < Pizza.length; j++) ...[
-                    if (Home.onlyVeg == true) ...[
-                      if (Home.pizzasType[j] == 'Vegetarian') ...[
-                        Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          margin: const EdgeInsets.only(
-                              left: 10, right: 10, bottom: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: primaryBorderDarkWhite, width: 0.4),
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Color(0xFFB9B9B9),
-                                    blurRadius: 5,
-                                    offset: Offset(
-                                      0,
-                                      3,
-                                    ))
-                              ]),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 90,
-                                width: 90,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20)),
-                                padding:
-                                    const EdgeInsets.only(top: 10, bottom: 10),
-                                child: Image(
-                                  image: AssetImage(Pizza[j]),
-                                  height: 90,
-                                  width: 90,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const Padding(padding: EdgeInsets.only(left: 30)),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(Home.pizzasName[j],
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          letterSpacing: 0.5)
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  Text(
-                                    Home.pizzasType[j],
-                                    style: const TextStyle(
-                                        color: Color.fromARGB(255, 70, 158, 73),
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Row(
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: 5.0,
+                      maxHeight: MediaQuery.of(context).size.height*2,
+                    ),
+                    child: TabBarView(
+                      children: [
+                        Column(children: [
+                          for (int j = 0; j < Home.pizzasImages.length; j++) ...[
+                            if (Home.onlyVeg == true) ...[
+                              if (Home.pizzasType[j] == 'Vegetarian') ...[
+                                Container(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: primaryBorderDarkWhite,
+                                          width: 0.4),
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Color(0xFFB9B9B9),
+                                            blurRadius: 5,
+                                            offset: Offset(
+                                              0,
+                                              3,
+                                            ))
+                                      ]),
+                                  child: Row(
                                     children: [
-                                      Text(
-                                        "₹${Pizza_val[j]}",
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600),
+                                      Container(
+                                        height: 90,
+                                        width: 90,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        padding: const EdgeInsets.only(
+                                            top: 10, bottom: 10),
+                                        child: Image(
+                                          image: AssetImage(Home.pizzasImages[j]),
+                                          height: 90,
+                                          width: 90,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                       const Padding(
-                                          padding: EdgeInsets.only(left: 120)),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Home.pizza = true;
-                                          Provider.of<CartProvider>(context,
-                                                  listen: false)
-                                              .addItem(Home.pizzasName[j],
-                                                  Pizza_val[j]);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: primaryBlue),
-                                        child: const Text("+ADD"),
+                                          padding: EdgeInsets.only(left: 30)),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(Home.pizzasName[j],
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.5)),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 70, 158, 73),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "₹${Home.pizzasCosts[j][0]}",
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 120)),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Home.pizza = true;
+                                                  Provider.of<CartProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .addItem(
+                                                          Home.pizzasName[j],
+                                                          Home.pizzasCosts[j][0]);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        primaryBlue),
+                                                child: const Text("+ADD"),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                        ],
                                       )
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 3,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ]
-                    ] else ...[
-                      Container(
-                        padding: const EdgeInsets.only(left: 10),
-                        margin: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                color: primaryBorderDarkWhite, width: 0.4),
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: const [
-                              BoxShadow(
-                                  color: Color(0xFFB9B9B9),
-                                  blurRadius: 5,
-                                  offset: Offset(
-                                    0,
-                                    3,
-                                  ))
-                            ]),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 90,
-                              width: 90,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20)),
-                              padding:
-                                  const EdgeInsets.only(top: 5, bottom: 5),
-                              child: Image(
-                                height: 90,
-                                width: 90,
-                                image: AssetImage(Pizza[j]),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const Padding(padding: EdgeInsets.only(left: 15)),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 10,
                                 ),
-                                Text(Home.pizzasName[j],
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                        letterSpacing: 0.5)),
-                                const SizedBox(height: 5,),
-                                if (Home.pizzasType[j] == 'Vegetarian') ...[
-                                  Text(
-                                    Home.pizzasType[j],
-                                    style: const TextStyle(
-                                        color: Color.fromARGB(255, 70, 158, 73),
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ] else ...[
-                                  Text(
-                                    Home.pizzasType[j],
-                                    style: const TextStyle(
-                                        color: Color.fromARGB(255, 204, 14, 14),
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                                const SizedBox(height: 5,),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              ]
+                            ] else ...[
+                              Container(
+                                padding: const EdgeInsets.only(left: 10),
+                                margin: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: primaryBorderDarkWhite,
+                                        width: 0.4),
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Color(0xFFB9B9B9),
+                                          blurRadius: 5,
+                                          offset: Offset(
+                                            0,
+                                            3,
+                                          ))
+                                    ]),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "₹${Pizza_val[j]}",
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
+                                    Container(
+                                      height: 90,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: Image(
+                                        height: 90,
+                                        width: 90,
+                                        image: AssetImage(Home.pizzasImages[j]),
+                                        fit: BoxFit.cover,
                                       ),
-                                      textAlign: TextAlign.start,
                                     ),
                                     const Padding(
-                                        padding: EdgeInsets.only(left: 120)),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Home.pizza = true;
-                                        Provider.of<CartProvider>(context,
-                                                listen: false)
-                                            .addItem(Home.pizzasName[j],
-                                                Pizza_val[j]);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: primaryBlue),
-                                      child: const Text("+ADD"),
+                                        padding: EdgeInsets.only(left: 15)),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(Home.pizzasName[j],
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16,
+                                                letterSpacing: 0.5)),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        if (Home.pizzasType[j] ==
+                                            'Vegetarian') ...[
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 70, 158, 73),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ] else ...[
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 204, 14, 14),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "₹${Home.pizzasCosts[j][0]}",
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.start,
+                                            ),
+                                            const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 120)),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Home.pizza = true;
+                                                Provider.of<CartProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .addItem(Home.pizzasName[j],
+                                                        Home.pizzasCosts[j][0]);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: primaryBlue),
+                                              child: const Text("+ADD"),
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                      ],
                                     )
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                              ],
-                            )
+                              ),
+                            ]
                           ],
-                        ),
-                      ),
-                    ]
-                  ],
-                  const SizedBox(
+                        ]),
+                        Column(children: [
+                          for (int j = 0; j < Home.pizzasImages.length; j++) ...[
+                            if (Home.onlyVeg == true) ...[
+                              if (Home.pizzasType[j] == 'Vegetarian') ...[
+                                Container(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: primaryBorderDarkWhite,
+                                          width: 0.4),
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Color(0xFFB9B9B9),
+                                            blurRadius: 5,
+                                            offset: Offset(
+                                              0,
+                                              3,
+                                            ))
+                                      ]),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 90,
+                                        width: 90,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        padding: const EdgeInsets.only(
+                                            top: 10, bottom: 10),
+                                        child: Image(
+                                          image: AssetImage(Home.pizzasImages[j]),
+                                          height: 90,
+                                          width: 90,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(left: 30)),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(Home.pizzasName[j],
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.5)),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 70, 158, 73),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "₹${Home.pizzasCosts[j][1]}",
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 120)),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Home.pizza = true;
+                                                  Provider.of<CartProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .addItem(
+                                                          Home.pizzasName[j],
+                                                          Home.pizzasCosts[j][1]);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        primaryBlue),
+                                                child: const Text("+ADD"),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ]
+                            ] else ...[
+                              Container(
+                                padding: const EdgeInsets.only(left: 10),
+                                margin: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: primaryBorderDarkWhite,
+                                        width: 0.4),
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Color(0xFFB9B9B9),
+                                          blurRadius: 5,
+                                          offset: Offset(
+                                            0,
+                                            3,
+                                          ))
+                                    ]),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 90,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: Image(
+                                        height: 90,
+                                        width: 90,
+                                        image: AssetImage(Home.pizzasImages[j]),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 15)),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(Home.pizzasName[j],
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16,
+                                                letterSpacing: 0.5)),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        if (Home.pizzasType[j] ==
+                                            'Vegetarian') ...[
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 70, 158, 73),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ] else ...[
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 204, 14, 14),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "₹${Home.pizzasCosts[j][1]}",
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.start,
+                                            ),
+                                            const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 120)),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Home.pizza = true;
+                                                Provider.of<CartProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .addItem(Home.pizzasName[j],
+                                                        Home.pizzasCosts[j][1]);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: primaryBlue),
+                                              child: const Text("+ADD"),
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ]
+                          ],
+                        ]),
+                        Column(children: [
+                          for (int j = 0; j < Home.pizzasImages.length; j++) ...[
+                            if (Home.onlyVeg == true) ...[
+                              if (Home.pizzasType[j] == 'Vegetarian') ...[
+                                Container(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: primaryBorderDarkWhite,
+                                          width: 0.4),
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Color(0xFFB9B9B9),
+                                            blurRadius: 5,
+                                            offset: Offset(
+                                              0,
+                                              3,
+                                            ))
+                                      ]),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 90,
+                                        width: 90,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        padding: const EdgeInsets.only(
+                                            top: 10, bottom: 10),
+                                        child: Image(
+                                          image: AssetImage(Home.pizzasImages[j]),
+                                          height: 90,
+                                          width: 90,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(left: 30)),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(Home.pizzasName[j],
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.5)),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 70, 158, 73),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "₹${Home.pizzasCosts[j][2]}",
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 120)),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Home.pizza = true;
+                                                  Provider.of<CartProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .addItem(
+                                                          Home.pizzasName[j],
+                                                          Home.pizzasCosts[j][2]);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        primaryBlue),
+                                                child: const Text("+ADD"),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ]
+                            ] else ...[
+                              Container(
+                                padding: const EdgeInsets.only(left: 10),
+                                margin: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: primaryBorderDarkWhite,
+                                        width: 0.4),
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Color(0xFFB9B9B9),
+                                          blurRadius: 5,
+                                          offset: Offset(
+                                            0,
+                                            3,
+                                          ))
+                                    ]),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 90,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: Image(
+                                        height: 90,
+                                        width: 90,
+                                        image: AssetImage(Home.pizzasImages[j]),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 15)),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(Home.pizzasName[j],
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16,
+                                                letterSpacing: 0.5)),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        if (Home.pizzasType[j] ==
+                                            'Vegetarian') ...[
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 70, 158, 73),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ] else ...[
+                                          Text(
+                                            Home.pizzasType[j],
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 204, 14, 14),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "₹${Home.pizzasCosts[j][2]}",
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.start,
+                                            ),
+                                            const Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 120)),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Home.pizza = true;
+                                                Provider.of<CartProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .addItem(Home.pizzasName[j],
+                                                        Home.pizzasCosts[j][2]);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: primaryBlue),
+                                              child: const Text("+ADD"),
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ]
+                          ],
+                        ]),
+                      ],
+                    ),
+                  )                  ,
+                  SizedBox(
                     height: 20,
                   )
                 ],
