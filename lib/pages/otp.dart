@@ -103,8 +103,9 @@ class _OtpState extends State<Otp> {
                 try {
                   PhoneAuthCredential credential = PhoneAuthProvider.credential(
                       verificationId: Login.verify, smsCode: otp_code);
-                  // Sign the user in (or link) with the credential
                   await auth.signInWithCredential(credential);
+                  SharedPref.addBoolToSF('LoggedIn', true);
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const MainScreen()),

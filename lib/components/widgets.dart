@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 Widget categoryItem(String path) {
   return Container(
-    margin: const EdgeInsets.fromLTRB(15, 18, 15, 5),
+    margin: const EdgeInsets.fromLTRB(10, 18, 10, 5),
     padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
     decoration: BoxDecoration(
       color: primaryBlue,

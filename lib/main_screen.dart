@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pizza_planet/pages/home.dart';
 import 'package:pizza_planet/pages/cart.dart';
+import 'package:pizza_planet/pages/login.dart';
 import 'package:pizza_planet/pages/orders.dart';
 import 'package:pizza_planet/utils.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 var scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -32,9 +34,15 @@ class _MainScreenState extends State<MainScreen> {
               'Pizza Planet'
           ),
           actions: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 18, 0),
-              child: const Icon(Icons.person),
+            IconButton(
+                onPressed: () {
+                  SharedPref.addBoolToSF("LoggedIn", false);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Login()),
+                  );
+                },
+              icon: const Icon(Icons.login_outlined),
             ),
           ]
       ),

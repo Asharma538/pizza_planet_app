@@ -65,7 +65,6 @@ class _CartState extends State<Cart> {
                       .of(context)
                       .size
                       .width * 0.9,
-                    height: cart_box_height(100, cartItems[i].length.toDouble()),
                   padding: const EdgeInsets.fromLTRB(18, 14, 18, 14),
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
@@ -81,7 +80,7 @@ class _CartState extends State<Cart> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: max(220,(cartItems[i].length).toDouble()),
+                            width: 180,
                             child: Text(
                               cartItems[i],
                               style: const TextStyle(
@@ -113,8 +112,9 @@ class _CartState extends State<Cart> {
                           )
                         ],
                       ),
+                      const Expanded(child: SizedBox(height: 1,),),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        // crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
                             padding: const EdgeInsets.fromLTRB(0, 3, 0, 3),
@@ -184,7 +184,7 @@ class _CartState extends State<Cart> {
                   .size
                   .width * 0.9,
               margin: const EdgeInsets.fromLTRB(0, 20, 0, 5),
-              padding: const EdgeInsets.fromLTRB(18, 15, 0, 15),
+              padding: const EdgeInsets.fromLTRB(18, 15, 18, 15),
               decoration: BoxDecoration(
                   border: Border.all(
                       width: 1,
@@ -208,13 +208,15 @@ class _CartState extends State<Cart> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MainScreen()),
+                          builder: (context) => const MainScreen()
+                      ),
                     );
                   },
                   child: Row(
                     children: [
-                      const Icon(CupertinoIcons.add_circled, weight: 1,),
+                      const Icon(CupertinoIcons.add_circled, weight: 1,size: 24,),
                       Container(
+                        width: 180,
                         margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                         // padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width*0.35, 0),
                         child: const Text(
@@ -224,10 +226,10 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                       ),
-                      Container(width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.35, height: 25, color: ghostWhite,),
+                      Expanded(
+                        child: Container(
+                          height: 25,
+                          color: ghostWhite,),),
                       const Icon(Icons.chevron_right)
                     ],
                   )
@@ -257,23 +259,27 @@ class _CartState extends State<Cart> {
                   children: [
                     Row(
                       children: [
-                        const Text(
-                          "Delivery Charges",
-                          style: TextStyle(
-                            fontSize: 15,
+                        const SizedBox(
+                          width: 150,
+                          child: Text(
+                            "Delivery Charges",
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
-                        SizedBox(width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.45,),
-                        Text(
-                          "FREE",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.blue.shade900,
+                        const Expanded(child: SizedBox(height: 1,),),
+                        SizedBox(
+                          child:Text(
+                            "FREE",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue.shade900,
+                            ),
+                            textAlign: TextAlign.end,
                           ),
                         ),
+                        const SizedBox(width: 8,)
                       ],
                     ),
                     Container(width: MediaQuery
@@ -285,25 +291,26 @@ class _CartState extends State<Cart> {
                       margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),),
                     Row(
                       children: [
-                        const Text(
+                        const SizedBox(
+                          width:150,
+                          child:Text(
                           "Grand Total",
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500
                           ),
                         ),
-                        SizedBox(width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.50,),
+                        ),
+                        const Expanded(child: SizedBox(height: 1,),),
                         Container(
                           alignment: Alignment.centerRight,
-                          width: 50,
+                          margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                           child: Text(
                             '₹${funky(price, quantity)}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                             ),
+                            textAlign: TextAlign.end,
                             // textAlign: TextAlign.right,
                           ),
                         ),
@@ -312,6 +319,30 @@ class _CartState extends State<Cart> {
                   ],
                 )
             ),
+            const SizedBox(height: 5,),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                backgroundColor: primaryBlue,
+                shadowColor: primaryBlack,
+                splashFactory: InkSplash.splashFactory,
+              ),
+              onPressed: (){},
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width*0.83,
+                height: 48,
+                child: const Text(
+                  "Proceed to payment",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: ghostWhite
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10,)
           ],
          ),
         ),
@@ -341,7 +372,7 @@ class _CartState extends State<Cart> {
                   .size
                   .width * 0.9,
               margin: const EdgeInsets.fromLTRB(0, 20, 0, 5),
-              padding: const EdgeInsets.fromLTRB(18, 15, 0, 15),
+              padding: const EdgeInsets.fromLTRB(18, 15, 18, 15),
               decoration: BoxDecoration(
                   border: Border.all(
                       width: 1,
@@ -370,21 +401,22 @@ class _CartState extends State<Cart> {
                   },
                   child: Row(
                     children: [
-                      const Icon(CupertinoIcons.add_circled, weight: 1,),
+                      const Icon(CupertinoIcons.add_circled, weight: 1,size: 24,),
                       Container(
+                        width: 180,
                         margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                         // padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width*0.35, 0),
                         child: const Text(
-                          "Add some items",
+                          "Add more items",
                           style: TextStyle(
                             fontSize: 16,
                           ),
                         ),
                       ),
-                      Container(width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.35, height: 25, color: ghostWhite,),
+                      Expanded(
+                        child: Container(
+                          height: 25,
+                          color: ghostWhite,),),
                       const Icon(Icons.chevron_right)
                     ],
                   )

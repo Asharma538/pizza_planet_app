@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:pizza_planet/main_screen.dart';
 import 'package:pizza_planet/pages/otp.dart';
 
 class Login extends StatefulWidget {
@@ -84,7 +83,7 @@ class _LoginState extends State<Login> {
                   Login.verify =  verificationId;
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Otp()),
+                    MaterialPageRoute(builder: (context) => const Otp()),
                   );
                 },
                 codeAutoRetrievalTimeout: (String verificationId) {},

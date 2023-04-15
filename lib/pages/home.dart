@@ -12,17 +12,17 @@ class Home extends StatefulWidget {
   static bool burger = false;
   static bool garlicBread = false;
 
-  static List<dynamic> pizzasName = [];
+  static List<String> pizzasName = [];
   static List<dynamic> pizzasCosts = [];
   static List<dynamic> pizzasType = [];
   static List<dynamic> pizzasImages = [];
 
-  static List<dynamic> burgerName = [];
+  static List<String> burgerName = [];
   static List<dynamic> burgerCosts = [];
   static List<dynamic> burgerType = [];
   static List<dynamic> burgerImages = [];
 
-  static List<dynamic> breadName = [];
+  static List<String> breadName = [];
   static List<dynamic> breadCosts = [];
   static List<dynamic> breadType = [];
   static List<dynamic> breadImages = [];
@@ -72,15 +72,11 @@ class _HomeState extends State<Home> {
         Home.pizzasCosts = l1;
         Home.pizzasType = l2;
         Home.pizzasImages = l3;
-        print(Home.pizzasCosts);
-        print(Home.pizzasName);
-        print(Home.pizzasType);
       }, onError: (e) {
         print(e);
         print("not working-pizzas");
       });
     }
-
     fetchBurgers() async {
       var instance2 = FirebaseFirestore.instance;
       final docRef = instance2.collection("Menu").doc("Burger");
@@ -104,7 +100,6 @@ class _HomeState extends State<Home> {
         print("not working-burgers");
       });
     }
-
     fetchBreads() async {
       var instance3 = FirebaseFirestore.instance;
       final docRef = instance3.collection("Menu").doc("Bread");
@@ -128,7 +123,6 @@ class _HomeState extends State<Home> {
         print("not working-breads");
       });
     }
-
     fetchPizzas();
     fetchBurgers();
     fetchBreads();
@@ -144,10 +138,10 @@ class _HomeState extends State<Home> {
               margin: const EdgeInsets.fromLTRB(20, 18, 20, 0),
               child: AdvancedSearch(
                 maxElementsToDisplay: 5,
-                singleItemHeight: 48,
+                singleItemHeight: 40,
                 selectedTextColor: const Color(0xFF3363D9),
                 borderColor: const Color(0xFFA2A2A2),
-                searchResultsBgColor: primaryWhite,
+                searchResultsBgColor: ghostWhite,
                 enabledBorderColor: primaryBorderDarkWhite,
                 fontSize: 16,
                 borderRadius: 5,
@@ -155,7 +149,7 @@ class _HomeState extends State<Home> {
                 cursorColor: Colors.blueGrey,
                 focusedBorderColor: const Color(0xFF545454),
                 inputTextFieldBgColor: Colors.white10,
-                itemsShownAtStart: 10,
+                itemsShownAtStart: 5,
                 searchMode: SearchMode.CONTAINS,
                 showListOfResults: true,
                 unSelectedTextColor: Colors.black,
@@ -164,22 +158,14 @@ class _HomeState extends State<Home> {
                 hideHintOnTextInputFocus: true,
                 hintTextColor: Colors.grey.shade800,
                 onItemTap: (index, value) {
-                  // print("selected item index is $index");
+                  // print("selected item is $value");
                 },
                 onSearchClear: () {},
                 onSubmitted: (searchText, listOfResults) {
                   // print("Submitted: $searchText");
                 },
                 onEditingProgress: (searchText, listOfResults) {},
-                searchItems: const [
-                  'Corn Pizza',
-                  'Aloo tikki Burger',
-                  'Garlic Bread',
-                  'Cheese Pizza',
-                  'Margherita Pizza',
-                  'Veggie Burger',
-                  'Green Wave Pizza'
-                ],
+                searchItems: Home.pizzasName+Home.burgerName+Home.breadName,
               ),
             ),
             Container(
@@ -198,7 +184,7 @@ class _HomeState extends State<Home> {
               alignment: Alignment.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   GestureDetector(
                     onTap: () {
                       Home.pizza = true;
