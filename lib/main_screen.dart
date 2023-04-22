@@ -18,9 +18,9 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final pages =  [
-    Home(),
-    Cart(),
-    Orders(),
+    const Home(),
+    const Cart(),
+    const Orders(),
   ];
   int currentIndex = 0;
   @override
@@ -37,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
             IconButton(
                 onPressed: () {
                   SharedPref.addBoolToSF("LoggedIn", false);
+                  SharedPref.removeValues("phoneNumber");
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Login()),

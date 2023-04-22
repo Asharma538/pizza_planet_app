@@ -51,7 +51,7 @@ class SharedPref{
   }
   static removeValues(String s) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove("s");
+    prefs.remove(s);
   }
   static checkValue(String s)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();

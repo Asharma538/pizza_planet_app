@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pizza_planet/cartProvider/provider.dart';
 import 'package:pizza_planet/pages/login.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';

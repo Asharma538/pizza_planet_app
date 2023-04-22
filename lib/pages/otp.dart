@@ -105,7 +105,7 @@ class _OtpState extends State<Otp> {
                       verificationId: Login.verify, smsCode: otp_code);
                   await auth.signInWithCredential(credential);
                   SharedPref.addBoolToSF('LoggedIn', true);
-
+                  SharedPref.addStringToSF("phoneNumber", Login.pn);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const MainScreen()),

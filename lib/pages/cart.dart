@@ -1,32 +1,22 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pizza_planet/cartProvider/provider.dart';
+import 'package:pizza_planet/pages/login.dart';
 import 'package:pizza_planet/main_screen.dart';
 import 'package:pizza_planet/utils.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-funky(l1,l2){
+totalOrderAmount(l1,l2){
  num tot=0;
   for (var i=0;i<l1.length;i++){
     tot += l1[i]*l2[i];
   }
   return tot;
 }
-double cart_box_height(int a,double b){
-  try{
-    return 100.toDouble();
-  } catch (e){
-    return 120.toDouble();
-  }
-
-}
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
-  // static List<int> quantity=[2,3];
-  // static List<int> price=[120,60];
-  // static List<String>  cartItems = ["Pizza","Aloo tikki Burger"];
   @override
   State<Cart> createState() => _CartState();
 }
@@ -39,7 +29,7 @@ class _CartState extends State<Cart> {
     List<int> quantity = Provider.of<CartProvider>(context).quantity;
     List<int> price = Provider.of<CartProvider>(context).price;
 
-    if (funky(quantity, price)!=0) {
+    if (totalOrderAmount(quantity, price)!=0) {
       return Scaffold(
         backgroundColor: ghostWhite,
         resizeToAvoidBottomInset: false,
@@ -99,7 +89,9 @@ class _CartState extends State<Cart> {
                           const SizedBox(height: 13,),
                           GestureDetector(
                             onTap: (){
-                              quantity[i]=0;
+                              cartItems.removeAt(i);
+                              quantity.removeAt(i);
+                              price.removeAt(i);
                               setState(() {});
                             },
                             child: const Text(
@@ -132,7 +124,12 @@ class _CartState extends State<Cart> {
                                 GestureDetector(
                                   onTap: () {
                                     quantity[i] -= 1;
-                                    late var tot = funky(price, quantity);
+                                    late var tot = totalOrderAmount(price, quantity);
+                                    if (quantity[i]==0){
+                                      cartItems.removeAt(i);
+                                      quantity.removeAt(i);
+                                      price.removeAt(i);
+                                    }
                                     setState(() {});
                                   },
                                   child: const Icon(
@@ -152,7 +149,7 @@ class _CartState extends State<Cart> {
                                 GestureDetector(
                                   onTap: () {
                                     quantity[i] += 1;
-                                    late var tot = funky(price, quantity);
+                                    late var tot = totalOrderAmount(price, quantity);
                                     setState(() {});
                                   },
                                   child: const Icon(
@@ -306,7 +303,7 @@ class _CartState extends State<Cart> {
                           alignment: Alignment.centerRight,
                           margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                           child: Text(
-                            '₹${funky(price, quantity)}',
+                            '₹${totalOrderAmount(price, quantity)}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                             ),
@@ -327,7 +324,22 @@ class _CartState extends State<Cart> {
                 shadowColor: primaryBlack,
                 splashFactory: InkSplash.splashFactory,
               ),
-              onPressed: (){},
+              onPressed: (){
+                var _razorpay = Razorpay();
+                var options = {
+                  'key': 'rzp_test_0EUUgwunXDm2bC',
+                  'amount': 100*totalOrderAmount(price, quantity), //in the smallest currency sub-unit.
+                  'name': 'Pizza Planet',
+                  'order_id': (Login.pn).toString(), // Generate order_id using Orders API
+                  'description': 'Trial order',
+                  'timeout': 60, // in seconds
+                  'prefill': {
+                    'contact': '9826256162',
+                    'email': 'sharma.130@iitj.ac.in'
+                  }
+                };
+                _razorpay.open(options);
+              },
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width*0.83,
