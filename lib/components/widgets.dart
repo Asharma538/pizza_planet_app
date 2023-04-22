@@ -44,16 +44,17 @@ PreferredSizeWidget appBarMenu(String s) {
       ]);
 }
 
-Widget menuItem(context,itemImage,itemName,itemType,itemCost,category){
+Widget menuItem(context, itemImage, itemName, itemType, itemCost, category) {
   return Container(
     padding: const EdgeInsets.only(left: 10),
     margin: const EdgeInsets.only(
-        left: 10, right: 10, bottom: 10,),
+      left: 10,
+      right: 10,
+      bottom: 10,
+    ),
     decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(
-            color: primaryBorderDarkWhite,
-            width: 0.4),
+        border: Border.all(color: primaryBorderDarkWhite, width: 0.4),
         borderRadius: BorderRadius.circular(8),
         boxShadow: const [
           BoxShadow(
@@ -70,23 +71,19 @@ Widget menuItem(context,itemImage,itemName,itemType,itemCost,category){
         Container(
           height: 90,
           width: 90,
-          decoration: BoxDecoration(
-              borderRadius:
-              BorderRadius.circular(20)),
-          padding: const EdgeInsets.only(
-              top: 5, bottom: 5),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+          padding: const EdgeInsets.only(top: 5, bottom: 5),
           child: Image(
             height: 90,
             width: 90,
-            image: AssetImage(itemImage),
+            // image: AssetImage(itemImage),
+            image: NetworkImage(itemImage),
             fit: BoxFit.cover,
           ),
         ),
-        const Padding(
-            padding: EdgeInsets.only(left: 15)),
+        const Padding(padding: EdgeInsets.only(left: 15)),
         Column(
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 10,
@@ -99,21 +96,18 @@ Widget menuItem(context,itemImage,itemName,itemType,itemCost,category){
             const SizedBox(
               height: 5,
             ),
-            if (itemType ==
-                'Vegetarian') ...[
+            if (itemType == 'Vegetarian') ...[
               Text(
                 itemType,
                 style: const TextStyle(
-                    color: Color.fromARGB(
-                        255, 70, 158, 73),
+                    color: Color.fromARGB(255, 70, 158, 73),
                     fontWeight: FontWeight.w500),
               ),
             ] else ...[
               Text(
                 itemType,
                 style: const TextStyle(
-                    color: Color.fromARGB(
-                        255, 204, 14, 14),
+                    color: Color.fromARGB(255, 204, 14, 14),
                     fontWeight: FontWeight.w500),
               ),
             ],
@@ -121,8 +115,7 @@ Widget menuItem(context,itemImage,itemName,itemType,itemCost,category){
               height: 5,
             ),
             Row(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "₹$itemCost",
@@ -132,28 +125,20 @@ Widget menuItem(context,itemImage,itemName,itemType,itemCost,category){
                   ),
                   textAlign: TextAlign.start,
                 ),
-                const Padding(
-                    padding:
-                    EdgeInsets.only(left: 120)
-                ),
+                const Padding(padding: EdgeInsets.only(left: 120)),
                 ElevatedButton(
                   onPressed: () {
-                    if (category=="pizza") {
+                    if (category == "pizza") {
                       Home.pizza = true;
-                    } else if (category=="burger") {
+                    } else if (category == "burger") {
                       Home.burger = true;
-                    }
-                    else{
+                    } else {
                       Home.garlicBread = true;
                     }
-                    Provider.of<CartProvider>(
-                        context,
-                        listen: false)
-                        .addItem(itemName,
-                        itemCost);
+                    Provider.of<CartProvider>(context, listen: false)
+                        .addItem(itemName, itemCost);
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryBlue),
+                  style: ElevatedButton.styleFrom(backgroundColor: primaryBlue),
                   child: const Text("+ADD"),
                 )
               ],

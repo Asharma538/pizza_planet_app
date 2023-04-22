@@ -34,7 +34,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final storageRef = FirebaseStorage.instance.ref();
   late PageController _pageController;
 
   List<String> carouselImages = [

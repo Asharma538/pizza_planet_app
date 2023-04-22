@@ -4,6 +4,10 @@ import 'package:pizza_planet/utils.dart';
 import 'package:pizza_planet/pages/home.dart';
 import 'package:provider/provider.dart';
 import '../cartProvider/provider.dart';
+import 'package:pizza_planet/image_controller.dart';
+import 'package:get/get.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../firebase_storage_services.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
@@ -13,21 +17,25 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-
   var category = ["Pizza", "Burger", "Garlic_Bread"];
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => imageController());
+    imageController _imagecontroller = Get.find();
     List<String> cartItems = Provider.of<CartProvider>(context).cartItems;
     List<int> quantity = Provider.of<CartProvider>(context).quantity;
     List<int> price = Provider.of<CartProvider>(context).price;
 
-    totLength(){
-      if (Home.onlyVeg==true) {
-        var temp=0;
-        for (String i in Home.pizzasType) {if (i=='Vegetarian'){temp++;}}
+    totLength() {
+      if (Home.onlyVeg == true) {
+        var temp = 0;
+        for (String i in Home.pizzasType) {
+          if (i == 'Vegetarian') {
+            temp++;
+          }
+        }
         return (118 * temp).toDouble();
-      }
-      else{
+      } else {
         return (118 * Home.pizzasName.length).toDouble();
       }
     }
@@ -78,13 +86,21 @@ class _MenuState extends State<Menu> {
                           unselectedLabelStyle: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500),
                           tabs: const [
-                            Tab( text: "Regular",),
-                            Tab( text: "Medium" ,),
-                            Tab( text: "Large"  ,)
+                            Tab(
+                              text: "Regular",
+                            ),
+                            Tab(
+                              text: "Medium",
+                            ),
+                            Tab(
+                              text: "Large",
+                            )
                           ]),
                     ),
                   ),
-                  const SizedBox( height: 10, ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: 5.0,
@@ -92,20 +108,33 @@ class _MenuState extends State<Menu> {
                     ),
                     child: TabBarView(
                       children: [
-                        for (var tabIndex =0; tabIndex<3; tabIndex++) ...[
-                          Column(
-                            children: [
-                              for (int j = 0; j < Home.pizzasImages.length; j++) ...[
-                                if (Home.onlyVeg == true) ...[
-                                  if (Home.pizzasType[j] == 'Vegetarian') ...[
-                                    menuItem(context,Home.pizzasImages[j],Home.pizzasName[j],Home.pizzasType[j],Home.pizzasCosts[j][tabIndex],"pizza"),
-                                  ]
-                                ] else ...[
-                                  menuItem(context,Home.pizzasImages[j],Home.pizzasName[j],Home.pizzasType[j],Home.pizzasCosts[j][tabIndex],"pizza"),
+                        for (var tabIndex = 0; tabIndex < 3; tabIndex++) ...[
+                          Column(children: [
+                            for (int j = 0;
+                                j < Home.pizzasImages.length;
+                                j++) ...[
+                              if (Home.onlyVeg == true) ...[
+                                if (Home.pizzasType[j] == 'Vegetarian') ...[
+                                  menuItem(
+                                      context,
+                                      // Home.pizzasImages[j],
+                                      _imagecontroller.allImages[j],
+                                      Home.pizzasName[j],
+                                      Home.pizzasType[j],
+                                      Home.pizzasCosts[j][tabIndex],
+                                      "pizza"),
                                 ]
-                              ],
-                            ]
-                          ),
+                              ] else ...[
+                                menuItem(
+                                    context,
+                                    Home.pizzasImages[j],
+                                    Home.pizzasName[j],
+                                    Home.pizzasType[j],
+                                    Home.pizzasCosts[j][tabIndex],
+                                    "pizza"),
+                              ]
+                            ],
+                          ]),
                         ]
                       ],
                     ),
@@ -139,9 +168,11 @@ class _MenuState extends State<Menu> {
               for (int j = 0; j < Home.burgerName.length; j++) ...[
                 if (Home.onlyVeg == true) ...[
                   if (Home.burgerType[j] == 'Vegetarian')
-                    menuItem(context,Home.burgerImages[j],Home.burgerName[j],Home.burgerType[j],Home.burgerCosts[j],"burger"),
+                    menuItem(context, Home.burgerImages[j], Home.burgerName[j],
+                        Home.burgerType[j], Home.burgerCosts[j], "burger"),
                 ] else ...[
-                  menuItem(context,Home.burgerImages[j],Home.burgerName[j],Home.burgerType[j],Home.burgerCosts[j],"burger"),
+                  menuItem(context, Home.burgerImages[j], Home.burgerName[j],
+                      Home.burgerType[j], Home.burgerCosts[j], "burger"),
                 ]
               ],
               const SizedBox(
@@ -159,6 +190,7 @@ class _MenuState extends State<Menu> {
         body: SingleChildScrollView(
           child: Column(children: <Widget>[
             Container(
+              
               height: 300,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -169,14 +201,17 @@ class _MenuState extends State<Menu> {
                 fit: BoxFit.fill,
               ),
             ),
-            const Padding( padding: EdgeInsets.only(top: 20, left: 10, right: 10)),
+            const Padding(
+                padding: EdgeInsets.only(top: 20, left: 10, right: 10)),
             for (int j = 0; j < Home.breadName.length; j++) ...[
               if (Home.onlyVeg == true) ...[
                 if (Home.breadType[j] == 'Vegetarian') ...[
-                  menuItem(context, Home.breadImages[j], Home.breadName[j], Home.breadType[j], Home.breadCosts[j],"bread"),
+                  menuItem(context, Home.breadImages[j], Home.breadName[j],
+                      Home.breadType[j], Home.breadCosts[j], "bread"),
                 ]
               ] else ...[
-                menuItem(context, Home.breadImages[j], Home.breadName[j], Home.breadType[j], Home.breadCosts[j],"bread"),
+                menuItem(context, Home.breadImages[j], Home.breadName[j],
+                    Home.breadType[j], Home.breadCosts[j], "bread"),
               ]
             ],
             const SizedBox(
