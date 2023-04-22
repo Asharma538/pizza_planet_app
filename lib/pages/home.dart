@@ -33,7 +33,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final storageRef = FirebaseStorage.instance.ref();
   late PageController _pageController;
 
   List<String> carouselImages = [
@@ -311,7 +310,7 @@ class _HomeState extends State<Home> {
                       Container(
                           height: 70,
                           decoration: const BoxDecoration(
-                              color: Color.fromARGB(179, 0, 0, 0),
+                              color: Color.fromARGB(179, 55, 55, 55),
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(10),
                                   bottomRight: Radius.circular(10))),

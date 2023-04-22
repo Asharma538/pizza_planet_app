@@ -4,16 +4,15 @@ import 'package:firebase_storage/firebase_storage.dart';
 Reference get firebaseStorage => FirebaseStorage.instance.ref();
 
 class FirebaseStorageService extends GetxService {
-  getImage(String? imgName) async{
+  Future<String?> getImage(String? imgName , String childname) async {
+    print(firebaseStorage);
     if (imgName == null) {
       return null;
     }
     try {
-      var urlRef = firebaseStorage
-          .child("carouselImages")
-          .child('${imgName.toLowerCase()}.jpeg');
-          var imgUrl = await urlRef.getDownloadURL();
-          return imgUrl;
+      var urlRef = firebaseStorage.child(childname).child('${imgName}.jpeg');
+      var imgUrl = await urlRef.getDownloadURL();
+      return imgUrl;
     } catch (e) {
       return null;
     }

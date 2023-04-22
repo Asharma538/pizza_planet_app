@@ -4,6 +4,10 @@ import 'package:pizza_planet/utils.dart';
 import 'package:pizza_planet/pages/home.dart';
 import 'package:provider/provider.dart';
 import '../cartProvider/provider.dart';
+import 'package:pizza_planet/image_controller.dart';
+import 'package:get/get.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../firebase_storage_services.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
@@ -14,15 +18,10 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   var category = ["Pizza", "Burger", "Garlic_Bread"];
-
-  // var Pizza = [
-  //   "images/pizza_carousel.jpg",
-  //   "images/pizza_carousel.jpg",
-  //   "images/pizza_carousel.jpg"
-  // ];
-  // var Pizza_val = Home.pizzasCosts;
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => imageController());
+    imageController _imagecontroller = Get.find();
     List<String> cartItems = Provider.of<CartProvider>(context).cartItems;
     List<int> quantity = Provider.of<CartProvider>(context).quantity;
     List<int> price = Provider.of<CartProvider>(context).price;
@@ -91,12 +90,14 @@ class _MenuState extends State<Menu> {
                   ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: 5.0,
-                      maxHeight: MediaQuery.of(context).size.height*2,
+                      maxHeight: MediaQuery.of(context).size.height * 2,
                     ),
                     child: TabBarView(
                       children: [
                         Column(children: [
-                          for (int j = 0; j < Home.pizzasImages.length; j++) ...[
+                          for (int j = 0;
+                              j < Home.pizzasImages.length;
+                              j++) ...[
                             if (Home.onlyVeg == true) ...[
                               if (Home.pizzasType[j] == 'Vegetarian') ...[
                                 Container(
@@ -121,20 +122,31 @@ class _MenuState extends State<Menu> {
                                   child: Row(
                                     children: [
                                       Container(
-                                        height: 90,
-                                        width: 90,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        padding: const EdgeInsets.only(
-                                            top: 10, bottom: 10),
-                                        child: Image(
-                                          image: AssetImage(Home.pizzasImages[j]),
                                           height: 90,
                                           width: 90,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20)
+                                              ),
+                                          padding: const EdgeInsets.only( top: 10, bottom: 10),
+                                          child: Obx(() => FadeInImage(
+                                              image: NetworkImage(_imagecontroller.allImages[j]),
+                                              placeholder: const AssetImage("images/pizza_carousel.jpg"),
+                                            ),
+                                          )
+                                          // FadeInImage(
+                                          //   image: NetworkImage(
+                                          //       _imagecontroller.allImages[j]),
+                                          //   placeholder: AssetImage(
+                                          //       "images/pizza_carousel.jpg"),
+                                          // ),
+                                          // Image(
+                                          //   image:
+                                          //       AssetImage(Home.pizzasImages[j]),
+                                          //   height: 90,
+                                          //   width: 90,
+                                          //   fit: BoxFit.cover,
+                                          // ),
+                                          ),
                                       const Padding(
                                           padding: EdgeInsets.only(left: 30)),
                                       Column(
@@ -179,7 +191,8 @@ class _MenuState extends State<Menu> {
                                                           listen: false)
                                                       .addItem(
                                                           Home.pizzasName[j],
-                                                          Home.pizzasCosts[j][0]);
+                                                          Home.pizzasCosts[j]
+                                                              [0]);
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
@@ -315,7 +328,9 @@ class _MenuState extends State<Menu> {
                           ],
                         ]),
                         Column(children: [
-                          for (int j = 0; j < Home.pizzasImages.length; j++) ...[
+                          for (int j = 0;
+                              j < Home.pizzasImages.length;
+                              j++) ...[
                             if (Home.onlyVeg == true) ...[
                               if (Home.pizzasType[j] == 'Vegetarian') ...[
                                 Container(
@@ -348,7 +363,8 @@ class _MenuState extends State<Menu> {
                                         padding: const EdgeInsets.only(
                                             top: 10, bottom: 10),
                                         child: Image(
-                                          image: AssetImage(Home.pizzasImages[j]),
+                                          image:
+                                              AssetImage(Home.pizzasImages[j]),
                                           height: 90,
                                           width: 90,
                                           fit: BoxFit.cover,
@@ -398,7 +414,8 @@ class _MenuState extends State<Menu> {
                                                           listen: false)
                                                       .addItem(
                                                           Home.pizzasName[j],
-                                                          Home.pizzasCosts[j][1]);
+                                                          Home.pizzasCosts[j]
+                                                              [1]);
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
@@ -534,7 +551,9 @@ class _MenuState extends State<Menu> {
                           ],
                         ]),
                         Column(children: [
-                          for (int j = 0; j < Home.pizzasImages.length; j++) ...[
+                          for (int j = 0;
+                              j < Home.pizzasImages.length;
+                              j++) ...[
                             if (Home.onlyVeg == true) ...[
                               if (Home.pizzasType[j] == 'Vegetarian') ...[
                                 Container(
@@ -567,7 +586,8 @@ class _MenuState extends State<Menu> {
                                         padding: const EdgeInsets.only(
                                             top: 10, bottom: 10),
                                         child: Image(
-                                          image: AssetImage(Home.pizzasImages[j]),
+                                          image:
+                                              AssetImage(Home.pizzasImages[j]),
                                           height: 90,
                                           width: 90,
                                           fit: BoxFit.cover,
@@ -617,7 +637,8 @@ class _MenuState extends State<Menu> {
                                                           listen: false)
                                                       .addItem(
                                                           Home.pizzasName[j],
-                                                          Home.pizzasCosts[j][2]);
+                                                          Home.pizzasCosts[j]
+                                                              [2]);
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
@@ -754,7 +775,7 @@ class _MenuState extends State<Menu> {
                         ]),
                       ],
                     ),
-                  )                  ,
+                  ),
                   SizedBox(
                     height: 20,
                   )
