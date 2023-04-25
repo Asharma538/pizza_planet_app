@@ -36,7 +36,6 @@ class SharedPref{
   static getBoolValuesSF(String s) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool boolValue = prefs.getBool(s)?? false;
-    print(boolValue);
     return boolValue;
   }
   static getIntValuesSF(String s) async {

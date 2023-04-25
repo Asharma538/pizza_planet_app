@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 import '../cartProvider/provider.dart';
 import 'package:pizza_planet/image_controller.dart';
 import 'package:get/get.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import '../firebase_storage_services.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
@@ -117,20 +115,21 @@ class _MenuState extends State<Menu> {
                                 if (Home.pizzasType[j] == 'Vegetarian') ...[
                                   menuItem(
                                       context,
-                                      // Home.pizzasImages[j],
-                                      _imagecontroller.allImages[j],
+                                      _imagecontroller.allImagesPizza[j],
                                       Home.pizzasName[j],
                                       Home.pizzasType[j],
                                       Home.pizzasCosts[j][tabIndex],
+                                      Home.pizzasAvl[j],
                                       "pizza"),
                                 ]
                               ] else ...[
                                 menuItem(
                                     context,
-                                    Home.pizzasImages[j],
+                                    _imagecontroller.allImagesPizza[j],
                                     Home.pizzasName[j],
                                     Home.pizzasType[j],
                                     Home.pizzasCosts[j][tabIndex],
+                                    Home.pizzasAvl[j],
                                     "pizza"),
                               ]
                             ],
@@ -168,11 +167,23 @@ class _MenuState extends State<Menu> {
               for (int j = 0; j < Home.burgerName.length; j++) ...[
                 if (Home.onlyVeg == true) ...[
                   if (Home.burgerType[j] == 'Vegetarian')
-                    menuItem(context, Home.burgerImages[j], Home.burgerName[j],
-                        Home.burgerType[j], Home.burgerCosts[j], "burger"),
+                    menuItem(
+                        context,
+                        _imagecontroller.allImagesBurger[j],
+                        Home.burgerName[j],
+                        Home.burgerType[j],
+                        Home.burgerCosts[j],
+                        Home.burgerAvl[j],
+                        "burger"),
                 ] else ...[
-                  menuItem(context, Home.burgerImages[j], Home.burgerName[j],
-                      Home.burgerType[j], Home.burgerCosts[j], "burger"),
+                  menuItem(
+                      context,
+                      _imagecontroller.allImagesBurger[j],
+                      Home.burgerName[j],
+                      Home.burgerType[j],
+                      Home.burgerCosts[j],
+                      Home.burgerAvl[j],
+                      "burger"),
                 ]
               ],
               const SizedBox(
@@ -190,7 +201,6 @@ class _MenuState extends State<Menu> {
         body: SingleChildScrollView(
           child: Column(children: <Widget>[
             Container(
-              
               height: 300,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -206,12 +216,24 @@ class _MenuState extends State<Menu> {
             for (int j = 0; j < Home.breadName.length; j++) ...[
               if (Home.onlyVeg == true) ...[
                 if (Home.breadType[j] == 'Vegetarian') ...[
-                  menuItem(context, Home.breadImages[j], Home.breadName[j],
-                      Home.breadType[j], Home.breadCosts[j], "bread"),
+                  menuItem(
+                      context,
+                      _imagecontroller.allImagesBreads[j],
+                      Home.breadName[j],
+                      Home.breadType[j],
+                      Home.breadCosts[j],
+                      Home.breadAvl[j],
+                      "bread"),
                 ]
               ] else ...[
-                menuItem(context, Home.breadImages[j], Home.breadName[j],
-                    Home.breadType[j], Home.breadCosts[j], "bread"),
+                menuItem(
+                    context,
+                    _imagecontroller.allImagesBreads[j],
+                    Home.breadName[j],
+                    Home.breadType[j],
+                    Home.breadCosts[j],
+                    Home.breadAvl[j],
+                    "bread"),
               ]
             ],
             const SizedBox(

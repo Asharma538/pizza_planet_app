@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pizza_planet/cartProvider/provider.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:pizza_planet/pages/login.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:pizza_planet/utils.dart';
-// import 'package:animated_text_kit/animated_text_kit.dart';
-
+import '../image_controller.dart';
 import '../main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   var isLoggedIn = false;
-  getuser() async{
+  getUser() async{
     bool userStatus = await SharedPref.getBoolValuesSF("LoggedIn");
     setState(() {
       isLoggedIn = userStatus;
@@ -27,10 +27,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState(){
     super.initState();
-    getuser();
+    getUser();
   }
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => imageController());
+    imageController _imagecontroller = Get.find();
     return Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pizza_planet/cartProvider/provider.dart';
+import 'package:pizza_planet/firebase_storage_services.dart';
 import 'package:pizza_planet/pages/login.dart';
 import 'package:pizza_planet/main_screen.dart';
 import 'package:pizza_planet/utils.dart';
@@ -106,7 +109,6 @@ class _CartState extends State<Cart> {
                       ),
                       const Expanded(child: SizedBox(height: 1,),),
                       Column(
-                        // crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
                             padding: const EdgeInsets.fromLTRB(0, 3, 0, 3),
@@ -324,21 +326,24 @@ class _CartState extends State<Cart> {
                 shadowColor: primaryBlack,
                 splashFactory: InkSplash.splashFactory,
               ),
-              onPressed: (){
-                var _razorpay = Razorpay();
-                var options = {
-                  'key': 'rzp_test_0EUUgwunXDm2bC',
-                  'amount': 100*totalOrderAmount(price, quantity), //in the smallest currency sub-unit.
-                  'name': 'Pizza Planet',
-                  'order_id': (Login.pn).toString(), // Generate order_id using Orders API
-                  'description': 'Trial order',
-                  'timeout': 60, // in seconds
-                  'prefill': {
-                    'contact': '9826256162',
-                    'email': 'sharma.130@iitj.ac.in'
-                  }
-                };
-                _razorpay.open(options);
+              onPressed: () async {
+                var instance = FirebaseFirestore.instance;
+                final docRef = instance.collection("Users");
+                var dateTimeOfOrder = DateTime.now().toString();
+                var order={};
+                for (int i=0;i<quantity.length;i++){
+                  order[cartItems[i]] = {
+                    "Quantity":quantity[i],
+                    "Total Amount":price[i]
+                  };
+                }
+                // print({dateTimeOfOrder:order});
+                var s = await docRef.doc(Login.pn).get();
+                var prev_orders = s.data() ?? {};
+                var allOrders = <String,dynamic>{};
+                allOrders.addAll(<String,dynamic>{dateTimeOfOrder:order});
+                allOrders.addAll(prev_orders);
+                docRef.doc(Login.pn).set(allOrders);
               },
               child: Container(
                 alignment: Alignment.center,
@@ -419,7 +424,7 @@ class _CartState extends State<Cart> {
                         margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                         // padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width*0.35, 0),
                         child: const Text(
-                          "Add more items",
+                          "Add some items",
                           style: TextStyle(
                             fontSize: 16,
                           ),

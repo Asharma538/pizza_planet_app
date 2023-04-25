@@ -1,3 +1,4 @@
+import 'package:advanced_search/advanced_search.dart';
 import 'package:flutter/material.dart';
 import 'package:pizza_planet/utils.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ PreferredSizeWidget appBarMenu(String s) {
       ]);
 }
 
-Widget menuItem(context, itemImage, itemName, itemType, itemCost, category) {
+Widget menuItem(context, itemImage, itemName, itemType, itemCost, isAvailable,category) {
   return Container(
     padding: const EdgeInsets.only(left: 10),
     margin: const EdgeInsets.only(
@@ -125,22 +126,32 @@ Widget menuItem(context, itemImage, itemName, itemType, itemCost, category) {
                   ),
                   textAlign: TextAlign.start,
                 ),
-                const Padding(padding: EdgeInsets.only(left: 120)),
-                ElevatedButton(
-                  onPressed: () {
-                    if (category == "pizza") {
-                      Home.pizza = true;
-                    } else if (category == "burger") {
-                      Home.burger = true;
-                    } else {
-                      Home.garlicBread = true;
-                    }
-                    Provider.of<CartProvider>(context, listen: false)
-                        .addItem(itemName, itemCost);
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: primaryBlue),
-                  child: const Text("+ADD"),
-                )
+                if (isAvailable=='A') ...[
+                  const Padding(padding: EdgeInsets.only(left: 120)),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (category == "pizza") {
+                        Home.pizza = true;
+                      } else if (category == "burger") {
+                        Home.burger = true;
+                      } else {
+                        Home.garlicBread = true;
+                      }
+                      Provider.of<CartProvider>(context, listen: false).addItem(itemName, itemCost);
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: primaryBlue),
+                    child: const Text("+ADD"),
+                  )
+                ]
+                else ...[
+                  const Padding(padding: EdgeInsets.only(left: 90)),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(backgroundColor: const Color(
+                        0xFFC50000)),
+                    child: const Text("Out of Stock"),
+                  )
+                ]
               ],
             ),
             const SizedBox(
@@ -149,6 +160,43 @@ Widget menuItem(context, itemImage, itemName, itemType, itemCost, category) {
           ],
         )
       ],
+    ),
+  );
+}
+
+Widget searchBar(searchList) {
+  return Container(
+    margin: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+    child: AdvancedSearch(
+      maxElementsToDisplay: 5,
+      singleItemHeight: 40,
+      selectedTextColor: const Color(0xFF3363D9),
+      borderColor: const Color(0xFFA2A2A2),
+      searchResultsBgColor: ghostWhite,
+      enabledBorderColor: primaryBorderDarkWhite,
+      fontSize: 16,
+      borderRadius: 5,
+      hintText: ' 🔍   Search pizzas, burgers, breads',
+      cursorColor: Colors.blueGrey,
+      focusedBorderColor: const Color(0xFF545454),
+      inputTextFieldBgColor: Colors.white10,
+      itemsShownAtStart: 5,
+      searchMode: SearchMode.CONTAINS,
+      showListOfResults: true,
+      unSelectedTextColor: Colors.black,
+      verticalPadding: 10,
+      horizontalPadding: 10,
+      hideHintOnTextInputFocus: true,
+      hintTextColor: Colors.grey.shade800,
+      onItemTap: (index, value) {
+        // print("selected item is $value");
+      },
+      onSearchClear: () {},
+      onSubmitted: (searchText, listOfResults) {
+        // print("Submitted: $searchText");
+      },
+      onEditingProgress: (searchText, listOfResults) {},
+      searchItems: searchList,
     ),
   );
 }

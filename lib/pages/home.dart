@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pizza_planet/pages/login.dart';
 import 'package:pizza_planet/pages/menu.dart';
 import 'package:pizza_planet/utils.dart';
-import 'package:advanced_search/advanced_search.dart';
 import 'package:pizza_planet/components/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,16 +17,19 @@ class Home extends StatefulWidget {
   static List<dynamic> pizzasCosts = [];
   static List<dynamic> pizzasType = [];
   static List<dynamic> pizzasImages = [];
+  static List<dynamic> pizzasAvl = [];
 
   static List<String> burgerName = [];
   static List<dynamic> burgerCosts = [];
   static List<dynamic> burgerType = [];
   static List<dynamic> burgerImages = [];
+  static List<dynamic> burgerAvl = [];
 
   static List<String> breadName = [];
   static List<dynamic> breadCosts = [];
   static List<dynamic> breadType = [];
   static List<dynamic> breadImages = [];
+  static List<dynamic> breadAvl = [];
 
   static bool onlyVeg = false;
   @override
@@ -65,21 +68,23 @@ class _HomeState extends State<Home> {
       var instance1 = FirebaseFirestore.instance;
       final docRef = instance1.collection("Menu").doc("Pizzas");
       await docRef.get().then((DocumentSnapshot snapshot) {
-        // print(snapshot.data());
         final data = snapshot.data() as Map<String, dynamic>;
         Home.pizzasName = (data.keys).toList();
         var l1 = [];
         var l2 = [];
         var l3 = [];
+        var l4 = [];
         Home.pizzasCosts = (data.values).toList();
         for (var ob in Home.pizzasCosts) {
           l1.add([ob[0], ob[1], ob[2]]);
           l2.add(ob[3]);
           l3.add("images/pizza_carousel.jpg");
+          l4.add(ob[4]);
         }
         Home.pizzasCosts = l1;
         Home.pizzasType = l2;
         Home.pizzasImages = l3;
+        Home.pizzasAvl = l4;
       }, onError: (e) {
         print(e);
         print("not working-pizzas");
@@ -95,14 +100,17 @@ class _HomeState extends State<Home> {
         var l1 = [];
         var l2 = [];
         var l3 = [];
+        var l4 = [];
         for (var ob in temp) {
           l1.add(ob[0]);
           l2.add(ob[1]);
           l3.add('images/burger_carousel.jpeg');
+          l4.add(ob[2]);
         }
         Home.burgerCosts = l1;
         Home.burgerType = l2;
         Home.burgerImages = l3;
+        Home.burgerAvl = l4;
       }, onError: (e) {
         print(e);
         print("not working-burgers");
@@ -118,22 +126,29 @@ class _HomeState extends State<Home> {
         var l1 = [];
         var l2 = [];
         var l3 = [];
+        var l4 = [];
         for (var ob in temp) {
           l1.add(ob[0]);
           l2.add(ob[1]);
           l3.add('images/garlic_bread.png');
+          l4.add(ob[2]);
         }
         Home.breadCosts = l1;
         Home.breadType = l2;
         Home.breadImages = l3;
+        Home.breadAvl = l4;
       }, onError: (e) {
         print(e);
         print("not working-breads");
       });
     }
+    getPhoneNumber() async{
+      Login.pn = await SharedPref.getStringValuesSF("phoneNumber");
+    }
     fetchPizzas();
     fetchBurgers();
     fetchBreads();
+    getPhoneNumber();
     return Scaffold(
       backgroundColor: ghostWhite,
       resizeToAvoidBottomInset: false,
@@ -142,40 +157,7 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(20, 18, 20, 0),
-              child: AdvancedSearch(
-                maxElementsToDisplay: 5,
-                singleItemHeight: 40,
-                selectedTextColor: const Color(0xFF3363D9),
-                borderColor: const Color(0xFFA2A2A2),
-                searchResultsBgColor: ghostWhite,
-                enabledBorderColor: primaryBorderDarkWhite,
-                fontSize: 16,
-                borderRadius: 5,
-                hintText: ' 🔍   Search pizzas, burgers, breads',
-                cursorColor: Colors.blueGrey,
-                focusedBorderColor: const Color(0xFF545454),
-                inputTextFieldBgColor: Colors.white10,
-                itemsShownAtStart: 5,
-                searchMode: SearchMode.CONTAINS,
-                showListOfResults: true,
-                unSelectedTextColor: Colors.black,
-                verticalPadding: 10,
-                horizontalPadding: 10,
-                hideHintOnTextInputFocus: true,
-                hintTextColor: Colors.grey.shade800,
-                onItemTap: (index, value) {
-                  // print("selected item is $value");
-                },
-                onSearchClear: () {},
-                onSubmitted: (searchText, listOfResults) {
-                  // print("Submitted: $searchText");
-                },
-                onEditingProgress: (searchText, listOfResults) {},
-                searchItems: Home.pizzasName+Home.burgerName+Home.breadName,
-              ),
-            ),
+            searchBar(Home.pizzasName+Home.burgerName+Home.breadName),
             Container(
               padding: const EdgeInsets.fromLTRB(20, 30, 10, 10),
               alignment: Alignment.centerLeft,
@@ -197,7 +179,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Home.pizza = true;
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Menu()));
+                          MaterialPageRoute(builder: (context) => const Menu()));
                     },
                     child: categoryItem("images/pizza_image.png"),
                   ),
@@ -205,7 +187,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Home.burger = true;
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Menu()));
+                          MaterialPageRoute(builder: (context) => const Menu()));
                     },
                     child: categoryItem("images/burger_image.png"),
                   ),
@@ -213,7 +195,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Home.garlicBread = true;
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Menu()));
+                          MaterialPageRoute(builder: (context) => const Menu()));
                     },
                     child: categoryItem("images/garlic_bread1.png"),
                   ),

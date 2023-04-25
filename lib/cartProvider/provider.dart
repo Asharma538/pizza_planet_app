@@ -8,7 +8,7 @@ setCartString(name,qty,price) {
     cartString+= name[v]+"|"+qty[v].toString()+"|"+price[v].toString()+",";
   }
   cartString+="}";
-  print(cartString);
+  // print(cartString);
   return cartString;
 }
 
@@ -82,6 +82,6 @@ class CartProvider extends ChangeNotifier {
     }
     notifyListeners();
     SharedPref.addStringToSF("myCart", setCartString(cartItems, quantity, price));
-    getCartString();
+    // getCartString();
   }
 }
