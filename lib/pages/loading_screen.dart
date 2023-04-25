@@ -18,45 +18,40 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   var isLoggedIn = false;
-  getuser() async{
+  getuser() async {
     bool userStatus = await SharedPref.getBoolValuesSF("LoggedIn");
     setState(() {
       isLoggedIn = userStatus;
     });
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getuser();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          Container(
-            color: primaryRed,
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: AnimatedSplashScreen(
-              splash: Lottie.asset('images/ayXdhyEQ3h.json'),
-              nextScreen: isLoggedIn? const MainScreen(): const Login(),
-              duration: 3000,
-              pageTransitionType: PageTransitionType.rightToLeft,
-              splashIconSize: double.infinity * 0.5,
-            ),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          color: primaryRed,
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.6,
+          child: AnimatedSplashScreen(
+            splash: Lottie.asset('images/ayXdhyEQ3h.json'),
+            nextScreen: isLoggedIn ? const MainScreen() : const Login(),
+            duration: 3000,
+            pageTransitionType: PageTransitionType.rightToLeft,
+            splashIconSize: double.infinity * 0.5,
           ),
+        ),
         const Padding(padding: EdgeInsets.only(top: 20)),
-        // SizedBox(
-        //   child: AnimatedTextKit(animatedTexts: [
-        //     ScaleAnimatedText("Pizza Planet",
-        //         textStyle: TextStyle(fontSize: 40 , color: Colors.red , fontWeight: FontWeight.w600)),
-        //   ]),
-        // ),
-
-        // Text("Pizza Planet")
+        Image(image: AssetImage('images/app_logo.png'))
       ],
     ));
   }
