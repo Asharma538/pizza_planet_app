@@ -24,19 +24,22 @@ class _SplashScreenState extends State<SplashScreen> {
       isLoggedIn = userStatus;
     });
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getUser();
   }
+
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => imageController());
     imageController _imagecontroller = Get.find();
     return Scaffold(
+        backgroundColor: Colors.white,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           Container(
             color: primaryRed,
             alignment: Alignment.center,
@@ -44,22 +47,15 @@ class _SplashScreenState extends State<SplashScreen> {
             height: MediaQuery.of(context).size.height * 0.6,
             child: AnimatedSplashScreen(
               splash: Lottie.asset('images/ayXdhyEQ3h.json'),
-              nextScreen: isLoggedIn? const MainScreen(): const Login(),
+              nextScreen: isLoggedIn ? const MainScreen() : const Login(),
               duration: 3000,
               pageTransitionType: PageTransitionType.rightToLeft,
               splashIconSize: double.infinity * 0.5,
             ),
           ),
-        const Padding(padding: EdgeInsets.only(top: 20)),
-        // SizedBox(
-        //   child: AnimatedTextKit(animatedTexts: [
-        //     ScaleAnimatedText("Pizza Planet",
-        //         textStyle: TextStyle(fontSize: 40 , color: Colors.red , fontWeight: FontWeight.w600)),
-        //   ]),
-        // ),
-
-        // Text("Pizza Planet")
-      ],
+          const Padding(padding: EdgeInsets.only(top: 20)),
+          const Image(image: AssetImage('images/app_logo.png'))
+        ],
     ));
   }
 }

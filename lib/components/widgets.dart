@@ -1,5 +1,7 @@
 import 'package:advanced_search/advanced_search.dart';
 import 'package:flutter/material.dart';
+import 'package:pizza_planet/main_screen.dart';
+import 'package:pizza_planet/pages/cart.dart';
 import 'package:pizza_planet/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:pizza_planet/cartProvider/provider.dart';
@@ -130,18 +132,38 @@ Widget menuItem(context, itemImage, itemName, itemType, itemCost, isAvailable,ca
                   const Padding(padding: EdgeInsets.only(left: 120)),
                   ElevatedButton(
                     onPressed: () {
-                      if (category == "pizza") {
+                      final snackBar = SnackBar(
+                      content: Text("Item added to cart"),
+                      action: SnackBarAction(
+                          label: "UNDO",
+                          onPressed: () {
+                            Provider.of<CartProvider>(context, listen: false)
+                                .removeItem(itemName);
+                            if (category == "pizza") {
+                              Home.pizza = true;
+                            } else if (category == "burger") {
+                              Home.burger = true;
+                            } else {
+                              Home.garlicBread = true;
+                            }
+                          }),
+                    );
+                    if (category == "pizza") {
                         Home.pizza = true;
-                      } else if (category == "burger") {
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else if (category == "burger") {
                         Home.burger = true;
-                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
                         Home.garlicBread = true;
-                      }
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                       Provider.of<CartProvider>(context, listen: false).addItem(itemName, itemCost);
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: primaryBlue),
                     child: const Text("+ADD"),
-                  )
+                  ),
+                // SnackBar(content: Text("Item added to cart"))
                 ]
                 else ...[
                   const Padding(padding: EdgeInsets.only(left: 90)),
