@@ -47,7 +47,8 @@ PreferredSizeWidget appBarMenu(String s) {
       ]);
 }
 
-Widget menuItem(context, itemImage, itemName, itemType, itemCost, isAvailable,category) {
+Widget menuItem(context, itemImage, itemName, itemDesc, itemType, itemCost,
+    isAvailable, category) {
   return Container(
     padding: const EdgeInsets.only(left: 10),
     margin: const EdgeInsets.only(
@@ -97,8 +98,20 @@ Widget menuItem(context, itemImage, itemName, itemType, itemCost, isAvailable,ca
                     fontSize: 16,
                     letterSpacing: 0.5)),
             const SizedBox(
-              height: 5,
+              height: 2,
             ),
+            if (itemDesc != "None") ...[
+              Text(
+                itemDesc,
+                // softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                // maxLines: 2,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                    letterSpacing: 0.5),
+              ),
+            ],
             if (itemType == 'Vegetarian') ...[
               Text(
                 itemType,
@@ -128,49 +141,50 @@ Widget menuItem(context, itemImage, itemName, itemType, itemCost, isAvailable,ca
                   ),
                   textAlign: TextAlign.start,
                 ),
-                if (isAvailable=='A') ...[
+                if (isAvailable == 'A') ...[
                   const Padding(padding: EdgeInsets.only(left: 120)),
                   ElevatedButton(
                     onPressed: () {
                       final snackBar = SnackBar(
-                      content: Text("Item added to cart"),
-                      action: SnackBarAction(
-                          label: "UNDO",
-                          onPressed: () {
-                            Provider.of<CartProvider>(context, listen: false)
-                                .removeItem(itemName);
-                            if (category == "pizza") {
-                              Home.pizza = true;
-                            } else if (category == "burger") {
-                              Home.burger = true;
-                            } else {
-                              Home.garlicBread = true;
-                            }
-                          }),
-                    );
-                    if (category == "pizza") {
+                        content: Text("Item added to cart"),
+                        action: SnackBarAction(
+                            label: "UNDO",
+                            onPressed: () {
+                              Provider.of<CartProvider>(context, listen: false)
+                                  .removeItem(itemName);
+                              if (category == "pizza") {
+                                Home.pizza = true;
+                              } else if (category == "burger") {
+                                Home.burger = true;
+                              } else {
+                                Home.garlicBread = true;
+                              }
+                            }),
+                      );
+                      if (category == "pizza") {
                         Home.pizza = true;
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } else if (category == "burger") {
+                      } else if (category == "burger") {
                         Home.burger = true;
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } else {
+                      } else {
                         Home.garlicBread = true;
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                      Provider.of<CartProvider>(context, listen: false).addItem(itemName, itemCost);
+                      }
+                      Provider.of<CartProvider>(context, listen: false)
+                          .addItem(itemName, itemCost);
                     },
-                    style: ElevatedButton.styleFrom(backgroundColor: primaryBlue),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: primaryBlue),
                     child: const Text("+ADD"),
                   ),
-                // SnackBar(content: Text("Item added to cart"))
-                ]
-                else ...[
+                  // SnackBar(content: Text("Item added to cart"))
+                ] else ...[
                   const Padding(padding: EdgeInsets.only(left: 90)),
                   ElevatedButton(
                     onPressed: () {},
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(
-                        0xFFC50000)),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFC50000)),
                     child: const Text("Out of Stock"),
                   )
                 ]

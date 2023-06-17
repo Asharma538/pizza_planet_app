@@ -14,18 +14,21 @@ class Home extends StatefulWidget {
   static bool garlicBread = false;
 
   static List<String> pizzasName = [];
+  static List<dynamic> pizzasDesc = [];
   static List<dynamic> pizzasCosts = [];
   static List<dynamic> pizzasType = [];
   static List<dynamic> pizzasImages = [];
   static List<dynamic> pizzasAvl = [];
 
   static List<String> burgerName = [];
+  static List<dynamic> burgerDesc = [];
   static List<dynamic> burgerCosts = [];
   static List<dynamic> burgerType = [];
   static List<dynamic> burgerImages = [];
   static List<dynamic> burgerAvl = [];
 
   static List<String> breadName = [];
+  static List<dynamic> breadDesc = [];
   static List<dynamic> breadCosts = [];
   static List<dynamic> breadType = [];
   static List<dynamic> breadImages = [];
@@ -74,22 +77,26 @@ class _HomeState extends State<Home> {
         var l2 = [];
         var l3 = [];
         var l4 = [];
+        var l5 = [];
         Home.pizzasCosts = (data.values).toList();
         for (var ob in Home.pizzasCosts) {
           l1.add([ob[0], ob[1], ob[2]]);
           l2.add(ob[3]);
           l3.add("images/pizza_carousel.jpg");
           l4.add(ob[4]);
+          l5.add(ob[5]);
         }
         Home.pizzasCosts = l1;
         Home.pizzasType = l2;
         Home.pizzasImages = l3;
         Home.pizzasAvl = l4;
+        Home.pizzasDesc = l5;
       }, onError: (e) {
         print(e);
         print("not working-pizzas");
       });
     }
+
     fetchBurgers() async {
       var instance2 = FirebaseFirestore.instance;
       final docRef = instance2.collection("Menu").doc("Burger");
@@ -101,21 +108,25 @@ class _HomeState extends State<Home> {
         var l2 = [];
         var l3 = [];
         var l4 = [];
+        var l5 = [];
         for (var ob in temp) {
           l1.add(ob[0]);
           l2.add(ob[1]);
           l3.add('images/burger_carousel.jpeg');
           l4.add(ob[2]);
+          l5.add(ob[3]);
         }
         Home.burgerCosts = l1;
         Home.burgerType = l2;
         Home.burgerImages = l3;
         Home.burgerAvl = l4;
+        Home.burgerDesc = l5;
       }, onError: (e) {
         print(e);
         print("not working-burgers");
       });
     }
+
     fetchBreads() async {
       var instance3 = FirebaseFirestore.instance;
       final docRef = instance3.collection("Menu").doc("Bread");
@@ -127,24 +138,29 @@ class _HomeState extends State<Home> {
         var l2 = [];
         var l3 = [];
         var l4 = [];
+        var l5 = [];
         for (var ob in temp) {
           l1.add(ob[0]);
           l2.add(ob[1]);
           l3.add('images/garlic_bread.png');
           l4.add(ob[2]);
+          l5.add(ob[3]);
         }
         Home.breadCosts = l1;
         Home.breadType = l2;
         Home.breadImages = l3;
         Home.breadAvl = l4;
+        Home.breadDesc = l5;
       }, onError: (e) {
         print(e);
         print("not working-breads");
       });
     }
-    getPhoneNumber() async{
+
+    getPhoneNumber() async {
       Login.pn = await SharedPref.getStringValuesSF("phoneNumber");
     }
+
     fetchPizzas();
     fetchBurgers();
     fetchBreads();
@@ -157,7 +173,7 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            searchBar(Home.pizzasName+Home.burgerName+Home.breadName),
+            searchBar(Home.pizzasName + Home.burgerName + Home.breadName),
             Container(
               padding: const EdgeInsets.fromLTRB(20, 30, 10, 10),
               alignment: Alignment.centerLeft,
@@ -178,24 +194,30 @@ class _HomeState extends State<Home> {
                   GestureDetector(
                     onTap: () {
                       Home.pizza = true;
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const Menu()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Menu()));
                     },
                     child: categoryItem("images/pizza_image.png"),
                   ),
                   GestureDetector(
                     onTap: () {
                       Home.burger = true;
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const Menu()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Menu()));
                     },
                     child: categoryItem("images/burger_image.png"),
                   ),
                   GestureDetector(
                     onTap: () {
                       Home.garlicBread = true;
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const Menu()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Menu()));
                     },
                     child: categoryItem("images/garlic_bread1.png"),
                   ),
@@ -289,60 +311,63 @@ class _HomeState extends State<Home> {
                           width: 300,
                           padding: const EdgeInsets.only(left: 10, top: 8),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Expanded(
-                                    child: Text(
-                                  overflow: TextOverflow.ellipsis,
-                                  carouselItems[pagePosition],
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      letterSpacing: 1),
-                                )),
-                                if (carouselItemType[pagePosition] ==
-                                    "Veg") ...[
-                                  Container(
-                                    alignment: Alignment.center,
-                                    margin: const EdgeInsets.only(top: 15, left: 80, right: 10),
-                                    child: Image(
-                                      image: AssetImage('images/veg_icon.jpg'),
-                                      height: 15,
-                                      width: 15,
-                                      // color: Color.fromARGB(179, 0, 0, 0),
-                                    ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                      overflow: TextOverflow.ellipsis,
+                                      carouselItems[pagePosition],
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          letterSpacing: 1),
+                                    )),
+                                    if (carouselItemType[pagePosition] ==
+                                        "Veg") ...[
+                                      Container(
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                            top: 15, left: 80, right: 10),
+                                        child: Image(
+                                          image:
+                                              AssetImage('images/veg_icon.jpg'),
+                                          height: 15,
+                                          width: 15,
+                                          // color: Color.fromARGB(179, 0, 0, 0),
+                                        ),
+                                      ),
+                                    ] else ...[
+                                      Container(
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                            top: 15, left: 80, right: 10),
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Image(
+                                          image: AssetImage(
+                                              'images/non_veg_icon.png'),
+                                          height: 16,
+                                          width: 16,
+                                          // color: Color.fromARGB(179, 0, 0, 0),
+                                        ),
+                                      ),
+                                    ]
+                                  ],
+                                ),
+                                Row(children: [
+                                  Text(
+                                    carouselCosts[pagePosition],
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        letterSpacing: 1),
                                   ),
-                                ] else ...[
-                                  Container(
-                                    alignment: Alignment.center,
-                                    margin: const EdgeInsets.only(
-                                        top: 15, left: 80, right: 10),
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                     child: Image(
-                                      image: AssetImage('images/non_veg_icon.png'),
-                                      height: 16,
-                                      width: 16,
-                                      // color: Color.fromARGB(179, 0, 0, 0),
-                                    ),
-                                  ),
-                                ]
-                              ],
-                            ),
-                            Row(children: [
-                              Text(
-                                carouselCosts[pagePosition],
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    letterSpacing: 1),
-                              ),
-                            ])
-                          ]))
+                                ])
+                              ]))
                     ]);
                   }),
             ),
