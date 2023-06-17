@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 20)),
-          const Image(image: AssetImage('images/app_logo.png'))
+          Image(image: const AssetImage('images/app_logo.png'),width: MediaQuery.of(context).size.width*0.85,)
         ],
     ));
   }

@@ -9,7 +9,7 @@ setCartString(name, qty, price) {
         name[v] + "|" + qty[v].toString() + "|" + price[v].toString() + ",";
   }
   cartString += "}";
-  print(cartString);
+  // print(cartString);
   return cartString;
 }
 
@@ -52,9 +52,9 @@ getCartString() async {
   } catch (e) {
     print(e);
   }
-  print(name);
-  print(qty);
-  print(price);
+  // print(name);
+  // print(qty);
+  // print(price);
 }
 
 class CartProvider extends ChangeNotifier {

@@ -13,29 +13,29 @@ class imageController extends GetxController {
 
   Future<void> getAllImages() async {
     List<String> imgNamePizza = [
-      "pizza_image0.png",
-      "pizza_image1.png",
-      "pizza_image2.png",
-      "pizza_image3.png",
-      "pizza_image4.png",
-      "pizza_image5.png",
-      "pizza_image6.png",
-      "pizza_image7.png",
-      "pizza_image8.png",
-      "pizza_image9.png",
+      "barbeque_chicken_pizza.png",
+      "chef's_veg_special.png",
+      "chicken_feast_pizza.png",
+      "chicken_supreme_pizza.png",
+      "double_cheese_margherita.png",
+      "fresh_veggie.png",
+      "maxican_green_wave.png",
+      "paneer_special_pizza.png",
+      "paprika_paneer_pizza.png",
+      "pizza_planet_special.png",
     ];
     List<String> imgNameBurger = [
-      "burger_carousel1.jpeg",
-      "burger_carousel2.jpeg",
-      "burger_carousel3.jpeg",
-      "burger_carousel4.jpeg",
-      "burger_carousel5.jpeg",
+      "aloo_tikki_burger.png",
+      "chicken_burger.png",
+      "double_chicken_burger.png",
+      "herb_tikki_burger.png",
+      "veggie_king_burger.png",
     ];
     List<String> imgNameBread = [
-      "garlic_breads0.jpg",
-      "garlic_breads1.jpg",
-      "garlic_breads2.jpg",
-      "garlic_breads3.jpg",
+      "calzone_pocket.png",
+      "stuffed_garlic_bread.png",
+      "garlic_bread_sticks.png",
+      "cheesy_dip.png",
     ];
     Get.lazyPut(() => FirebaseStorageService());
     try {

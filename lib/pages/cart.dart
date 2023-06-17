@@ -327,11 +327,11 @@ class _CartState extends State<Cart> {
               Container(
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       "PROCEED TO PAY",
                       style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     
@@ -359,7 +359,7 @@ class _CartState extends State<Cart> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         ElevatedButton(
@@ -371,23 +371,22 @@ class _CartState extends State<Cart> {
                             splashFactory: InkSplash.splashFactory,
                           ),
                           onPressed: () async {
-                            var _razorpay = Razorpay();
-                            var options = {
-                              'key': 'rzp_test_0EUUgwunXDm2bC',
-                              'amount': 100 *
-                                  totalOrderAmount(price,
-                                      quantity), //in the smallest currency sub-unit.
-                              'name': 'Pizza Planet',
-                              'order_id': (Login.pn)
-                                  .toString(), // Generate order_id using Orders API
-                              'description': 'Trial order',
-                              'timeout': 60, // in seconds
-                              'prefill': {
-                                'contact': '9826256162',
-                                'email': 'sharma.130@iitj.ac.in'
-                              }
-                            };
-                            _razorpay.open(options);
+                            // var _razorpay = Razorpay();
+                            // print(totalOrderAmount(price, quantity));
+                            // var options = {
+                            //   'key': 'rzp_test_0EUUgwunXDm2bC',
+                            //   'amount': 100 * totalOrderAmount(price, quantity), //in the smallest currency sub-unit.
+                            //   'name': 'Pizza Planet',
+                            //   'order_id': (Login.pn).toString(), // Generate order_id using Orders API
+                            //   'description': 'Trial order',
+                            //   'timeout': 100, // in seconds
+                            //   'prefill': {
+                            //     'contact': '7426018826',
+                            //     'email': 'sharma.130@iitj.ac.in'
+                            //   }
+                            // };
+                            // _razorpay.open(options);
+
                             var instance = FirebaseFirestore.instance;
                             final docRef = instance.collection("Users");
                             var dateTimeOfOrder = DateTime.now().toString();
