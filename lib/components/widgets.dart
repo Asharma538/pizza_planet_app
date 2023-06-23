@@ -44,7 +44,8 @@ PreferredSizeWidget appBarMenu(String s) {
           padding: const EdgeInsets.fromLTRB(0, 0, 18, 0),
           // child: const Icon(Icons.person),
         ),
-      ]);
+      ]
+  );
 }
 
 Widget menuItem(context, itemImage, itemName, itemDesc, itemType, itemCost,
@@ -68,7 +69,8 @@ Widget menuItem(context, itemImage, itemName, itemDesc, itemType, itemCost,
                 0,
                 3,
               ))
-        ]),
+        ]
+    ),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -80,7 +82,6 @@ Widget menuItem(context, itemImage, itemName, itemDesc, itemType, itemCost,
           child: Image(
             height: 90,
             width: 90,
-            // image: AssetImage(itemImage),
             image: NetworkImage(itemImage),
             fit: BoxFit.cover,
           ),
@@ -101,16 +102,18 @@ Widget menuItem(context, itemImage, itemName, itemDesc, itemType, itemCost,
               height: 2,
             ),
             if (itemDesc != "None") ...[
-              Text(
+              Container(
+                width: 200,
+              child: Text(
                 itemDesc,
-                // softWrap: true,
                 overflow: TextOverflow.ellipsis,
-                // maxLines: 2,
-                style: TextStyle(
+                maxLines: 2,
+                style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                     letterSpacing: 0.5),
               ),
+              )
             ],
             if (itemType == 'Vegetarian') ...[
               Text(

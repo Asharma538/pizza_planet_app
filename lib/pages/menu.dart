@@ -32,9 +32,9 @@ class _MenuState extends State<Menu> {
             temp++;
           }
         }
-        return (118 * temp).toDouble();
+        return (138 * temp).toDouble();
       } else {
-        return (118 * Home.pizzasName.length).toDouble();
+        return (138 * Home.pizzasName.length).toDouble();
       }
     }
 
