@@ -40,15 +40,18 @@ class imageController extends GetxController {
     Get.lazyPut(() => FirebaseStorageService());
     try {
       for (var img in imgNameBurger) {
-        final imgUrl = await Get.find<FirebaseStorageService>().getImage(img, "burger");
+        final imgUrl =
+            await Get.find<FirebaseStorageService>().getImage(img, "burger");
         allImagesBurger.add(imgUrl!);
       }
       for (var img in imgNameBread) {
-        final imgUrl = await Get.find<FirebaseStorageService>().getImage(img, "garlicBread");
+        final imgUrl = await Get.find<FirebaseStorageService>()
+            .getImage(img, "garlicBread");
         allImagesBreads.add(imgUrl!);
       }
       for (var img in imgNamePizza) {
-        final imgUrl = await Get.find<FirebaseStorageService>().getImage(img, "pizza");
+        final imgUrl =
+            await Get.find<FirebaseStorageService>().getImage(img, "pizza");
         allImagesPizza.add(imgUrl!);
       }
     } catch (e) {
