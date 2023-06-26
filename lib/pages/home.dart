@@ -9,10 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
+  // Category choosing variable
   static bool pizza = false;
   static bool burger = false;
   static bool garlicBread = false;
 
+  // Item details
   static List<String> pizzasName = [];
   static List<dynamic> pizzasDesc = [];
   static List<dynamic> pizzasCosts = [];
@@ -34,7 +36,9 @@ class Home extends StatefulWidget {
   static List<dynamic> breadImages = [];
   static List<dynamic> breadAvl = [];
 
+  // Only veg toggle
   static bool onlyVeg = false;
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -42,6 +46,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late PageController _pageController;
 
+  // Carousel
   List<String> carouselImages = [
     "images/pizza_carousel.jpg",
     "images/burger_carousel.jpeg",
@@ -54,11 +59,14 @@ class _HomeState extends State<Home> {
   ];
   List<String> carouselCosts = ["₹180", "₹60", "₹125"];
   List<String> carouselItemType = ["Veg", "Veg", "Veg"];
+
+  // Categories
   List<String> menu = [
     "Pizza",
     "Burger",
     "Garlic Bread",
   ];
+
   @override
   void initState() {
     super.initState();
@@ -96,7 +104,6 @@ class _HomeState extends State<Home> {
         print("not working-pizzas");
       });
     }
-
     fetchBurgers() async {
       var instance2 = FirebaseFirestore.instance;
       final docRef = instance2.collection("Menu").doc("Burger");
@@ -126,7 +133,6 @@ class _HomeState extends State<Home> {
         print("not working-burgers");
       });
     }
-
     fetchBreads() async {
       var instance3 = FirebaseFirestore.instance;
       final docRef = instance3.collection("Menu").doc("Bread");
@@ -164,7 +170,9 @@ class _HomeState extends State<Home> {
     fetchPizzas();
     fetchBurgers();
     fetchBreads();
+
     getPhoneNumber();
+
     return Scaffold(
       backgroundColor: ghostWhite,
       resizeToAvoidBottomInset: false,
@@ -173,7 +181,11 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+
+            // Search bar
             searchBar(Home.pizzasName + Home.burgerName + Home.breadName),
+
+            // What are you craving for text
             Container(
               padding: const EdgeInsets.fromLTRB(20, 30, 10, 10),
               alignment: Alignment.centerLeft,
@@ -186,6 +198,8 @@ class _HomeState extends State<Home> {
                 textAlign: TextAlign.left,
               ),
             ),
+
+            // Categories
             Container(
               alignment: Alignment.center,
               child: Row(
@@ -224,6 +238,8 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+
+            // Veg Only Button
             Container(
               margin: const EdgeInsets.fromLTRB(25, 35, 5, 5),
               width: 110,
@@ -257,6 +273,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+
             Container(
               padding: const EdgeInsets.fromLTRB(20, 30, 10, 10),
               alignment: Alignment.centerLeft,
