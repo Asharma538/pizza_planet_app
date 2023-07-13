@@ -170,7 +170,6 @@ class _HomeState extends State<Home> {
     fetchPizzas();
     fetchBurgers();
     fetchBreads();
-
     getPhoneNumber();
 
     return Scaffold(

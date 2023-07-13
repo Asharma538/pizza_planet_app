@@ -34,23 +34,18 @@ class _OrdersState extends State<Orders> {
     List<bool> visibilty = [];
     Get.lazyPut(() => imageController());
     imageController _imagecontroller = Get.find();
+    // print(orders);
     for (var i = 0; i < dates!.length; i++) {
+      if(orders![i]["Done"]==false) continue;
       List<String> temp = orders![i].keys.toList();
-      // print(temp);
-      // for (var j = 0; j < temp.length; j++) {
-      //   l1.add(temp[j]);
-      // }
+      temp.remove("Done");
       l1.add(temp);
       l2.add(dates[i].substring(0, 10));
       visibilty.add(false);
-      // print(_imagecontroller.allImagesBurger.indexOf(temp));
     }
     Orders.orderedItems = l1;
     Orders.orderDates = l2;
     Orders.ordervisib = visibilty;
-    // print(Orders.orderDates);
-    // print(Orders.orderedItems);
-    // print(Orders.ordervisib);
   }
 
   @override
@@ -95,6 +90,7 @@ class _OrdersState extends State<Orders> {
                 Column(
                   children: <Widget>[
                     for (int i = 0; i < Orders.orderDates.length; i++) ...[
+
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -118,7 +114,7 @@ class _OrdersState extends State<Orders> {
                             padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
                             child: Row(
                               children: [
-                                Image(
+                                const Image(
                                   image: AssetImage("images/burger_image.png"),
                                   height: 100,
                                   width: 100,
@@ -240,7 +236,7 @@ class _OrdersState extends State<Orders> {
                                 ),
                               ),
                             ],
-                            // Container for Hide Box
+                            // Container for More/Hide Box
                             Container(
                               // alignment: Alignment.topCenter,
                               width: MediaQuery.of(context).size.width,
