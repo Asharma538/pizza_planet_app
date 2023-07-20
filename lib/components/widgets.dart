@@ -174,8 +174,7 @@ Widget menuItem(context, itemImage, itemName, itemDesc, itemType, itemCost,
                         Home.garlicBread = true;
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
-                      Provider.of<CartProvider>(context, listen: false)
-                          .addItem(itemName, itemCost);
+                      Provider.of<CartProvider>(context, listen: false).addItem(itemName, itemCost);
                     },
                     style:
                         ElevatedButton.styleFrom(backgroundColor: primaryBlue),

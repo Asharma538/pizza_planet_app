@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pizza_planet/cartProvider/provider.dart';
-import 'package:pizza_planet/firebase_storage_services.dart';
 import 'package:pizza_planet/pages/login.dart';
 import 'package:pizza_planet/main_screen.dart';
 import 'package:pizza_planet/utils.dart';
 import 'package:provider/provider.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 totalOrderAmount(l1, l2) {
   num tot = 0;
@@ -313,7 +310,6 @@ class _CartState extends State<Cart> {
                                 fontWeight: FontWeight.w600,
                               ),
                               textAlign: TextAlign.end,
-                              // textAlign: TextAlign.right,
                             ),
                           ),
                         ],
@@ -345,31 +341,6 @@ class _CartState extends State<Cart> {
                             shadowColor: primaryBlack,
                             splashFactory: InkSplash.splashFactory,
                           ),
-                          onPressed: () {},
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width * 0.83,
-                            height: 48,
-                            child: const Text(
-                              "Cash on Delivery",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: ghostWhite),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            backgroundColor: Colors.green[600],
-                            shadowColor: primaryBlack,
-                            splashFactory: InkSplash.splashFactory,
-                          ),
                           onPressed: () async {
                             var instance = FirebaseFirestore.instance;
                             final docRef = instance.collection("Users");
@@ -388,13 +359,14 @@ class _CartState extends State<Cart> {
                             allOrders.addAll(<String,dynamic>{dateTimeOfOrder:order});
                             allOrders.addAll(prev_orders);
                             docRef.doc(Login.pn).set(allOrders);
+                            Provider.of<CartProvider>(context, listen: false).empty_cart();
                           },
                           child: Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width * 0.83,
                             height: 48,
                             child: const Text(
-                              "Other Payment Options",
+                              "Pay on Delivery",
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -482,7 +454,8 @@ class _CartState extends State<Cart> {
                       ),
                       const Icon(Icons.chevron_right)
                     ],
-                  )),
+                  )
+              ),
             ),
           ]));
     }
